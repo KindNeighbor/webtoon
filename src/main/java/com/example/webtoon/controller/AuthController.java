@@ -18,7 +18,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-
     // 로그인
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

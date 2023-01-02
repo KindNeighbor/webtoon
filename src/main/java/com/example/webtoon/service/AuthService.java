@@ -61,7 +61,7 @@ public class AuthService {
                 StatusCode.BAD_REQUEST, ResponseMessage.ALREADY_EXISTED_NICKNAME));
         }
 
-        // Creating user's account
+        
         User user = new User(signUpRequest.getEmail(), signUpRequest.getUsername(),
             signUpRequest.getPassword(), signUpRequest.getNickname());
 
