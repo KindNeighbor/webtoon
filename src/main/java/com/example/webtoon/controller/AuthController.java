@@ -1,6 +1,7 @@
 package com.example.webtoon.controller;
 
 import com.example.webtoon.payload.LoginRequest;
+import com.example.webtoon.payload.SignUpRequest;
 import com.example.webtoon.service.AuthService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,11 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         return authService.signIn(loginRequest);
+    }
+
+    // 회원가입
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        return authService.signUp(signUpRequest);
     }
 }
