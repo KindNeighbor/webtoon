@@ -1,11 +1,11 @@
 package com.example.webtoon.service;
 
-import com.example.webtoon.entity.RoleName;
+import com.example.webtoon.type.RoleName;
 import com.example.webtoon.entity.User;
 import com.example.webtoon.exception.CustomException;
-import com.example.webtoon.exception.ErrorCode;
-import com.example.webtoon.payload.LoginRequest;
-import com.example.webtoon.payload.SignUpRequest;
+import com.example.webtoon.type.ErrorCode;
+import com.example.webtoon.dto.LoginRequest;
+import com.example.webtoon.dto.SignUpRequest;
 import com.example.webtoon.repository.UserRepository;
 import com.example.webtoon.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;

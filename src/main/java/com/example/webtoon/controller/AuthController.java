@@ -1,10 +1,10 @@
 package com.example.webtoon.controller;
 
-import com.example.webtoon.payload.ApiResponse;
-import com.example.webtoon.payload.LoginRequest;
-import com.example.webtoon.payload.ResponseCode;
-import com.example.webtoon.payload.SignUpRequest;
-import com.example.webtoon.payload.TokenResponse;
+import com.example.webtoon.dto.ApiResponse;
+import com.example.webtoon.dto.LoginRequest;
+import com.example.webtoon.type.ResponseCode;
+import com.example.webtoon.dto.SignUpRequest;
+import com.example.webtoon.dto.TokenResponse;
 import com.example.webtoon.service.AuthService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.webtoon.exception;
+package com.example.webtoon.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

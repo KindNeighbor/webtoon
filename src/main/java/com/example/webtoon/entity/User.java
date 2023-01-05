@@ -1,5 +1,6 @@
 package com.example.webtoon.entity;
 
+import com.example.webtoon.type.RoleName;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

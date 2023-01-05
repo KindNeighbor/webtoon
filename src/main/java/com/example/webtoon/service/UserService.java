@@ -2,8 +2,8 @@ package com.example.webtoon.service;
 
 import com.example.webtoon.entity.User;
 import com.example.webtoon.exception.CustomException;
-import com.example.webtoon.exception.ErrorCode;
-import com.example.webtoon.payload.UserInfo;
+import com.example.webtoon.type.ErrorCode;
+import com.example.webtoon.dto.UserInfo;
 import com.example.webtoon.repository.UserRepository;
 import com.example.webtoon.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;

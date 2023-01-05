@@ -1,9 +1,9 @@
 package com.example.webtoon.controller;
 
 
-import com.example.webtoon.payload.ApiResponse;
-import com.example.webtoon.payload.ResponseCode;
-import com.example.webtoon.payload.UserInfo;
+import com.example.webtoon.dto.ApiResponse;
+import com.example.webtoon.type.ResponseCode;
+import com.example.webtoon.dto.UserInfo;
 import com.example.webtoon.security.CurrentUser;
 import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.service.UserService;

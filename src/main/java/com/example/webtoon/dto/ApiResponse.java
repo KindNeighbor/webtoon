@@ -1,5 +1,6 @@
-package com.example.webtoon.payload;
+package com.example.webtoon.dto;
 
+import com.example.webtoon.type.ResponseCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.example.webtoon.payload;
+package com.example.webtoon.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

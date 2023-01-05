@@ -1,6 +1,7 @@
 package com.example.webtoon.exception;
 
 
+import com.example.webtoon.type.ErrorCode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
