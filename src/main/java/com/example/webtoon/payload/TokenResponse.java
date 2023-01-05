@@ -9,11 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JwtAuthenticationResponse {
+public class TokenResponse {
     private String accessToken;
     private String tokenType = "Bearer";
 
-    public JwtAuthenticationResponse(String accessToken) {
+    public TokenResponse(String accessToken) {
         this.accessToken = accessToken;
     }
 }

@@ -2,16 +2,14 @@ package com.example.webtoon.service;
 
 import com.example.webtoon.entity.RoleName;
 import com.example.webtoon.entity.User;
-import com.example.webtoon.payload.ApiResponse;
-import com.example.webtoon.payload.JwtAuthenticationResponse;
+import com.example.webtoon.exception.CustomException;
+import com.example.webtoon.exception.ErrorCode;
 import com.example.webtoon.payload.LoginRequest;
-import com.example.webtoon.payload.ResponseMessage;
 import com.example.webtoon.payload.SignUpRequest;
-import com.example.webtoon.payload.StatusCode;
 import com.example.webtoon.repository.UserRepository;
 import com.example.webtoon.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,7 +27,18 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     // 로그인
-    public ResponseEntity<?> signIn(LoginRequest loginRequest) {
+    public String signIn(LoginRequest loginRequest) {
+
+        // 이메일 일치 여부
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+            .orElseThrow(() -> new CustomException(
+                HttpStatus.BAD_REQUEST, ErrorCode.LOGIN_FAIL_EMAIL_NOT_EXIST));
+
+        // 비밀번호 일치 여부
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            throw new CustomException(
+                HttpStatus.BAD_REQUEST, ErrorCode.LOGIN_FAIL_PASSWORD_WRONG);
+        }
 
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
@@ -40,21 +49,22 @@ public class AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        return tokenProvider.generateToken(authentication);
     }
 
     // 회원가입
-    public ResponseEntity<?> signUp(SignUpRequest signUpRequest) {
+    public void signUp(SignUpRequest signUpRequest) {
 
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity.ok(new ApiResponse(
-                StatusCode.BAD_REQUEST, ResponseMessage.ALREADY_EXISTED_EMAIL));
+        // 이메일 중복 여부
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            throw new CustomException(
+                HttpStatus.BAD_REQUEST, ErrorCode.ALREADY_EXISTED_EMAIL);
         }
 
-        if(userRepository.existsByNickname(signUpRequest.getNickname())) {
-            return ResponseEntity.ok(new ApiResponse(
-                StatusCode.BAD_REQUEST, ResponseMessage.ALREADY_EXISTED_NICKNAME));
+        // 닉네임 중복 여부
+        if (userRepository.existsByNickname(signUpRequest.getNickname())) {
+            throw new CustomException(
+                HttpStatus.BAD_REQUEST, ErrorCode.ALREADY_EXISTED_NICKNAME);
         }
 
         // 입력된 회원가입 정보 DB에 저장
@@ -65,9 +75,7 @@ public class AuthService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(RoleName.ROLE_USER);
-        userRepository.save(user);
 
-        return ResponseEntity.ok(new ApiResponse(
-            StatusCode.OK, ResponseMessage.CREATED_USER, user));
+        userRepository.save(user);
     }
 }

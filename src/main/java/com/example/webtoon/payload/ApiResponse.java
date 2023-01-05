@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
@@ -12,25 +13,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class ApiResponse<T> {
-    private int statusCode;
+    private int status;
+    private HttpStatus statusMessage;
+    private ResponseCode responseCode;
     private String responseMessage;
     private T data;
 
-    public ApiResponse(final int statusCode, final String responseMessage) {
-        this.statusCode = statusCode;
-        this.responseMessage = responseMessage;
-        this.data = null;
-    }
-
-    public static<T> ApiResponse<T> res(final int statusCode, final String responseMessage) {
-        return res(statusCode, responseMessage, null);
-    }
-
-    public static<T> ApiResponse<T> res(final int statusCode, final String responseMessage, final T t) {
-        return ApiResponse.<T>builder()
-            .data(t)
-            .statusCode(statusCode)
-            .responseMessage(responseMessage)
-            .build();
+    public ApiResponse(HttpStatus statusMessage, ResponseCode responseCode, T data) {
+        this.status = statusMessage.value();
+        this.statusMessage = statusMessage;
+        this.responseCode = responseCode;
+        this.responseMessage = responseCode.getMessage();
+        this.data = data;
     }
 }
