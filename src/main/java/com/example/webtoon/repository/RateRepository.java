@@ -11,6 +11,6 @@ public interface RateRepository extends JpaRepository<Rate, Long> {
 
     Boolean existsByEpisode_EpisodeIdAndUser_UserId(Long episodeId, Long userId);
 
-    @Query(value="Select avg(user_rate) from test_webtoon.rate where episode_id = ?1", nativeQuery = true)
+    @Query(value="Select avg(user_rate) from example.rate where episode_id = ?1", nativeQuery = true)
     Double getAvgRate(Long id);
 }
