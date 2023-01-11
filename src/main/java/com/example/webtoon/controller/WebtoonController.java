@@ -5,6 +5,7 @@ import com.example.webtoon.dto.EpisodeDto;
 import com.example.webtoon.dto.WebtoonDto;
 import com.example.webtoon.service.WebtoonService;
 import com.example.webtoon.type.ResponseCode;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class WebtoonController {
                                      @RequestParam String artist,
                                      @RequestParam String day,
                                      @RequestParam String genre,
-                                     @RequestParam MultipartFile file) {
+                                     @RequestParam MultipartFile file) throws IOException {
 
         WebtoonDto webtoonDto = webtoonService.addWebtoon(title, artist, day, genre, file);
         return new ApiResponse<>(
@@ -46,7 +47,7 @@ public class WebtoonController {
     public ApiResponse<WebtoonDto> updateWebtoon(@PathVariable Long webtoonId,
                                         @RequestParam String title, @RequestParam String artist,
                                         @RequestParam String day, @RequestParam String genre,
-                                        @RequestParam MultipartFile file) {
+                                        @RequestParam MultipartFile file) throws IOException {
 
         WebtoonDto webtoonDto =
             webtoonService.updateWebtoon(webtoonId, title, artist, day, genre,file);
@@ -68,7 +69,7 @@ public class WebtoonController {
     public ApiResponse<EpisodeDto> addWebtoon(@PathVariable Long webtoonId,
                                      @RequestParam String title,
                                      @RequestParam MultipartFile epFile,
-                                     @RequestParam MultipartFile thFile) {
+                                     @RequestParam MultipartFile thFile) throws IOException {
 
         EpisodeDto EpisodeDto =
             webtoonService.addEpisode(webtoonId, title, epFile, thFile);
@@ -82,7 +83,7 @@ public class WebtoonController {
     public ApiResponse<EpisodeDto> updateWebtoon(@PathVariable Long episodeId,
                                         @RequestParam String title,
                                         @RequestParam MultipartFile epFile,
-                                        @RequestParam MultipartFile thFile) {
+                                        @RequestParam MultipartFile thFile) throws IOException {
 
         EpisodeDto EpisodeDto =
             webtoonService.updateEpisode(episodeId, title, epFile, thFile);

@@ -9,9 +9,11 @@ import com.example.webtoon.exception.CustomException;
 import com.example.webtoon.repository.EpisodeRepository;
 import com.example.webtoon.repository.WebtoonRepository;
 import com.example.webtoon.type.ErrorCode;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties.Io;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +29,7 @@ public class WebtoonService {
     // 웹툰 신규 등록
     public WebtoonDto addWebtoon(String title, String artist,
                                  String day, String genre,
-                                 MultipartFile file) {
+                                 MultipartFile file) throws IOException {
 
         if (webtoonRepository.existsByTitle(title)) {
             throw new CustomException(
@@ -46,7 +48,7 @@ public class WebtoonService {
     public WebtoonDto updateWebtoon(Long webtoonId,
                                     String title, String artist,
                                     String day, String genre,
-                                    MultipartFile file) {
+                                    MultipartFile file) throws IOException {
 
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(() ->
             new CustomException(HttpStatus.NOT_FOUND, ErrorCode.WEBTOON_NOT_FOUND));
@@ -72,7 +74,7 @@ public class WebtoonService {
     public EpisodeDto addEpisode(Long webtoonId,
                                  String title,
                                  MultipartFile epFile,
-                                 MultipartFile thFile) {
+                                 MultipartFile thFile) throws IOException {
 
         if (episodeRepository.existsByWebtoon_WebtoonIdAndTitle(webtoonId, title)) {
             throw new CustomException(
@@ -94,7 +96,7 @@ public class WebtoonService {
     public EpisodeDto updateEpisode(Long episodeId,
                                     String title,
                                     MultipartFile epFile,
-                                    MultipartFile thFile) {
+                                    MultipartFile thFile) throws IOException {
 
         Episode episode = episodeRepository.findById(episodeId).orElseThrow(
             () -> new CustomException(HttpStatus.NOT_FOUND, ErrorCode.EPISODE_NOT_FOUND));
