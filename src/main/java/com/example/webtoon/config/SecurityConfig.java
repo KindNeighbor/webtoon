@@ -1,6 +1,7 @@
 package com.example.webtoon.config;
 
 import com.example.webtoon.security.CustomUserDetailsService;
+import com.example.webtoon.security.JwtAccessDeniedHandler;
 import com.example.webtoon.security.JwtAuthenticationEntryPoint;
 import com.example.webtoon.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
 
     private final CustomUserDetailsService customUserDetailService;
-    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public JwtAuthenticationFilter JwtAuthenticationFilter(){
@@ -62,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .csrf()
                     .disable() //rest api이므로 csrf 보안이 필요 없으므로 disable 처리
                 .exceptionHandling() //예외처리
-                    .authenticationEntryPoint(unauthorizedHandler) //전달 예외 잡기
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .accessDeniedHandler(jwtAccessDeniedHandler)
                     .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션은 필요없으므로 생성안함
