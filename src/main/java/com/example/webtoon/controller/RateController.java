@@ -25,7 +25,7 @@ public class RateController {
     private final RateService rateService;
 
     // 평점 등록
-    @PostMapping("/add-rate/{episodeId}")
+    @PostMapping("/rate/{episodeId}")
     public ApiResponse<RateDto> addRate(@PathVariable Long episodeId, @CurrentUser UserPrincipal currentUser,
                                   @RequestParam Integer userRate) {
         RateDto rateDto = rateService.addRate(episodeId, currentUser.getId(), userRate);
@@ -33,7 +33,7 @@ public class RateController {
     }
 
     // 평점 수정
-    @PutMapping("/update-rate/{episodeId}")
+    @PutMapping("/rate/{episodeId}")
     public ApiResponse<RateDto> updateRate(@PathVariable Long episodeId, @CurrentUser UserPrincipal currentUser,
                                      @RequestParam Integer userRate) {
         RateDto rateDto = rateService.updateRate(episodeId, currentUser.getId(), userRate);
@@ -41,7 +41,7 @@ public class RateController {
     }
 
     // 웹툰 평점 평균 불러오기
-    @GetMapping("/get-webtoon/rate/{webtoonId}")
+    @GetMapping("/webtoon-rate/{webtoonId}")
     public ApiResponse<RateAvgDto> getWebtoonAvgRate(@PathVariable Long webtoonId){
         RateAvgDto webtoonAvgRate = rateService.getWebtoonAvgRate(webtoonId);
         return new ApiResponse<>(
@@ -49,7 +49,7 @@ public class RateController {
     }
 
     // 에피소드 평점 평균 불러오기
-    @GetMapping("/get-webtoon/episode-rate/{episodeId}")
+    @GetMapping("/episode-rate/{episodeId}")
     public ApiResponse<RateAvgDto> getAvgRate(@PathVariable Long episodeId){
         RateAvgDto webtoonEpisodeAvgRate = rateService.getWebtoonEpisodeAvgRate(episodeId);
         return new ApiResponse<>(
