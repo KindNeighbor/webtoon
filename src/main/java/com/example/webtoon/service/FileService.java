@@ -13,17 +13,20 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
 @Service
+@RequiredArgsConstructor
 public class FileService {
 
     private final Path dirLocation;
 
+    @Autowired
     public FileService(FileUploadProperties fileUploadProperties) {
         this.dirLocation = Paths.get(fileUploadProperties.getLocation())
             .toAbsolutePath().normalize();

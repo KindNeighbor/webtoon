@@ -38,7 +38,7 @@ public class RateService {
 
         User user = userRepository.findById(userId).orElseThrow(
             () ->new CustomException(
-            HttpStatus.NOT_FOUND, ErrorCode.NICKNAME_NOT_FOUND));
+            HttpStatus.NOT_FOUND, ErrorCode.USER_NOT_FOUND));
 
         Rate rate = new Rate(userRate);
         rate.setEpisode(episode);

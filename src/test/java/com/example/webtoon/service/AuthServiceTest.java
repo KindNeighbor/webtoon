@@ -74,7 +74,7 @@ class AuthServiceTest {
 
     @Test
     @DisplayName("로그인 실패 - 입력한 이메일과 일치하는 정보 없음")
-    void signInFailed_NoExistEmail() {
+    void signInFailed_EmailNotFound() {
         // given
         LoginRequest loginRequest = LoginRequest.builder()
             .email("test@test.com")

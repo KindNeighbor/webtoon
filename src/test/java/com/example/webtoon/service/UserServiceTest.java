@@ -62,7 +62,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("회원 조회 실패 - 입력한 닉네임과 일치하는 정보 없음")
-    void getUserInfoFailed_NoExistNickname() {
+    void getUserInfoFailed_NicknameNotFound() {
 
         // given
         given(userRepository.findByNickname(anyString())).willReturn(Optional.empty());
