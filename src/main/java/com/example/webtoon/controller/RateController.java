@@ -26,7 +26,7 @@ public class RateController {
 
     // 평점 등록
     @PostMapping("/add-rate/{episodeId}")
-    public ApiResponse<?> addRate(@PathVariable Long episodeId, @CurrentUser UserPrincipal currentUser,
+    public ApiResponse<RateDto> addRate(@PathVariable Long episodeId, @CurrentUser UserPrincipal currentUser,
                                   @RequestParam Integer userRate) {
         RateDto rateDto = rateService.addRate(episodeId, currentUser.getId(), userRate);
         return new ApiResponse<>(HttpStatus.OK, ResponseCode.CREATE_RATE_SUCCESS, rateDto);
@@ -34,7 +34,7 @@ public class RateController {
 
     // 평점 수정
     @PutMapping("/update-rate/{episodeId}")
-    public ApiResponse<?> updateRate(@PathVariable Long episodeId, @CurrentUser UserPrincipal currentUser,
+    public ApiResponse<RateDto> updateRate(@PathVariable Long episodeId, @CurrentUser UserPrincipal currentUser,
                                      @RequestParam Integer userRate) {
         RateDto rateDto = rateService.updateRate(episodeId, currentUser.getId(), userRate);
         return new ApiResponse<>(HttpStatus.OK, ResponseCode.UPDATE_RATE_SUCCESS, rateDto);
@@ -42,7 +42,7 @@ public class RateController {
 
     // 웹툰 평점 평균 불러오기
     @GetMapping("/get-webtoon/rate/{webtoonId}")
-    public ApiResponse<?> getWebtoonAvgRate(@PathVariable Long webtoonId){
+    public ApiResponse<RateAvgDto> getWebtoonAvgRate(@PathVariable Long webtoonId){
         RateAvgDto webtoonAvgRate = rateService.getWebtoonAvgRate(webtoonId);
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_WEBTOON_AVG_RAGE_SUCCESS, webtoonAvgRate);
@@ -50,7 +50,7 @@ public class RateController {
 
     // 에피소드 평점 평균 불러오기
     @GetMapping("/get-webtoon/episode-rate/{episodeId}")
-    public ApiResponse<?> getAvgRate(@PathVariable Long episodeId){
+    public ApiResponse<RateAvgDto> getAvgRate(@PathVariable Long episodeId){
         RateAvgDto webtoonEpisodeAvgRate = rateService.getWebtoonEpisodeAvgRate(episodeId);
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_EPISODE_AVG_RAGE_SUCCESS, webtoonEpisodeAvgRate);

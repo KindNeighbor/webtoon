@@ -9,6 +9,7 @@ import com.example.webtoon.exception.CustomException;
 import com.example.webtoon.repository.EpisodeRepository;
 import com.example.webtoon.repository.RateRepository;
 import com.example.webtoon.repository.UserRepository;
+import com.example.webtoon.repository.WebtoonRepository;
 import com.example.webtoon.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class RateService {
 
     private final UserRepository userRepository;
     private final EpisodeRepository episodeRepository;
+    private final WebtoonRepository webtoonRepository;
     private final RateRepository rateRepository;
 
     // 평점 등록
@@ -60,7 +62,7 @@ public class RateService {
 
     // 웹툰 평점 평균 불러오기
     public RateAvgDto getWebtoonAvgRate(@PathVariable Long webtoonId){
-        return new RateAvgDto(episodeRepository.getAvgRate(webtoonId));
+        return new RateAvgDto(webtoonRepository.getAvgRate(webtoonId));
     }
 
     // 에피소드 평점 평균 불러오기
