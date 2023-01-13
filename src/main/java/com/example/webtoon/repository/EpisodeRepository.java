@@ -12,4 +12,9 @@ public interface EpisodeRepository extends JpaRepository<Episode, Long> {
 
     @Query(value="Select avg(user_rate) from example.rate where episode_id = ?1", nativeQuery = true)
     Double getAvgRate(Long id);
+
+    @Query(value = "SELECT * FROM example.episode "
+        + "left join rate r on episode.episode_id = r.episode_id "
+        + "WHERE user_id = ?1", nativeQuery = true)
+    List<Episode> findAllByUserId(Long userId);
 }

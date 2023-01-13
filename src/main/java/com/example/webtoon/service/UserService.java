@@ -1,9 +1,13 @@
 package com.example.webtoon.service;
 
+import com.example.webtoon.dto.EpisodeDto;
+import com.example.webtoon.dto.EpisodeIdListDto;
 import com.example.webtoon.dto.WebtoonIdListDto;
+import com.example.webtoon.entity.Episode;
 import com.example.webtoon.entity.User;
 import com.example.webtoon.entity.Webtoon;
 import com.example.webtoon.exception.CustomException;
+import com.example.webtoon.repository.EpisodeRepository;
 import com.example.webtoon.repository.WebtoonRepository;
 import com.example.webtoon.type.ErrorCode;
 import com.example.webtoon.dto.UserInfo;
@@ -22,6 +26,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final WebtoonRepository webtoonRepository;
+    private final EpisodeRepository episodeRepository;
 
     // 자기 자신 조회
     public UserInfo getCurrentUser(UserPrincipal currentUser) {
@@ -42,9 +47,9 @@ public class UserService {
     }
 
     // 유저가 평점 부여한 웹툰 목록 불러오기
-    public List<WebtoonIdListDto> getWebtoonRatedByUser(Long userId) {
-        Set<Webtoon> webtoonList = webtoonRepository.getWebtoonIdByUserId(userId);
-        return webtoonList.stream().map(WebtoonIdListDto::from).collect(Collectors.toList());
+    public List<EpisodeIdListDto> getWebtoonRatedByUser(Long userId) {
+        List<Episode> episodeList = episodeRepository.findAllByUserId(userId);
+        return episodeList.stream().map(EpisodeIdListDto::from).collect(Collectors.toList());
     }
 
     // 선호 작품 목록 조회

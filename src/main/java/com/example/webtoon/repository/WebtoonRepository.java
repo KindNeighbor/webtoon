@@ -18,12 +18,6 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
         + "where webtoon_id = ?1", nativeQuery = true)
     Double getAvgRate(Long id);
 
-    @Query(value = "SELECT DISTINCT * FROM example.webtoon "
-        + "LEFT JOIN example.episode e on webtoon.webtoon_id = e.webtoon_id "
-        + "LEFT JOIN example.rate r on e.episode_id = r.episode_id "
-        + "WHERE user_id = ?1", nativeQuery = true)
-    Set<Webtoon> getWebtoonIdByUserId(Long userId);
-
     @Query(value = "SELECT * FROM example.webtoon "
         + "LEFT JOIN example.favorite f on webtoon.webtoon_id = f.webtoon_id "
         + "WHERE user_id = ?1", nativeQuery = true)

@@ -2,6 +2,8 @@ package com.example.webtoon.controller;
 
 
 import com.example.webtoon.dto.ApiResponse;
+import com.example.webtoon.dto.EpisodeDto;
+import com.example.webtoon.dto.EpisodeIdListDto;
 import com.example.webtoon.dto.WebtoonIdListDto;
 import com.example.webtoon.type.ResponseCode;
 import com.example.webtoon.dto.UserInfo;
@@ -42,12 +44,12 @@ public class UserController {
             HttpStatus.OK, ResponseCode.GET_USER_INFO_SUCCESS, userInfo);
     }
 
-    // 유저가 평점 부여한 웹툰 목록 조회 (webtoonId 로 반환)
+    // 유저가 평점 부여한 에피소드 목록 조회
     @GetMapping("/user/webtoon/rated")
-    public ApiResponse<List<WebtoonIdListDto>> getWebtoonRatedByUser(@CurrentUser UserPrincipal currentUser) {
-        List<WebtoonIdListDto> webtoonList = userService.getWebtoonRatedByUser(currentUser.getId());
+    public ApiResponse<List<EpisodeIdListDto>> getWebtoonRatedByUser(@CurrentUser UserPrincipal currentUser) {
+        List<EpisodeIdListDto> episodeList = userService.getWebtoonRatedByUser(currentUser.getId());
         return new ApiResponse<>(
-            HttpStatus.OK, ResponseCode.GET_RATED_WEBTOON_LIST_SUCCESS, webtoonList);
+            HttpStatus.OK, ResponseCode.GET_RATED_EPISODE_LIST_SUCCESS, episodeList);
     }
 
     // 선호 작품 목록 조회
