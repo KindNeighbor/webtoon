@@ -2,14 +2,14 @@ package com.example.webtoon.controller;
 
 
 import com.example.webtoon.dto.ApiResponse;
-import com.example.webtoon.dto.EpisodeDto;
+import com.example.webtoon.dto.CommentDto;
 import com.example.webtoon.dto.EpisodeIdListDto;
-import com.example.webtoon.dto.WebtoonIdListDto;
-import com.example.webtoon.type.ResponseCode;
 import com.example.webtoon.dto.UserInfo;
+import com.example.webtoon.dto.WebtoonIdListDto;
 import com.example.webtoon.security.CurrentUser;
 import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.service.UserService;
+import com.example.webtoon.type.ResponseCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,10 +46,18 @@ public class UserController {
 
     // 유저가 평점 부여한 에피소드 목록 조회
     @GetMapping("/user/webtoon/rated")
-    public ApiResponse<List<EpisodeIdListDto>> getWebtoonRatedByUser(@CurrentUser UserPrincipal currentUser) {
-        List<EpisodeIdListDto> episodeList = userService.getWebtoonRatedByUser(currentUser.getId());
+    public ApiResponse<List<EpisodeIdListDto>> getEpisodeRatedByUser(@CurrentUser UserPrincipal currentUser) {
+        List<EpisodeIdListDto> episodeList = userService.getEpisodeRatedByUser(currentUser.getId());
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_RATED_EPISODE_LIST_SUCCESS, episodeList);
+    }
+
+    // 유저가 작성한 댓글 목록 조회
+    @GetMapping("/user/comments")
+    public ApiResponse<List<CommentDto>> getCommentsByUser(@CurrentUser UserPrincipal currentUser) {
+        List<CommentDto> commentList = userService.getCommentsByUser(currentUser.getId());
+        return new ApiResponse<>(
+            HttpStatus.OK, ResponseCode.GET_COMMENT_LIST_SUCCESS, commentList);
     }
 
     // 선호 작품 목록 조회

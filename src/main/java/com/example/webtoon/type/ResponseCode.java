@@ -26,7 +26,11 @@ public enum ResponseCode {
     DELETE_RATE_SUCCESS("평점 삭제 성공"),
     ADD_FAV_WEBTOON_SUCCESS("선호 작품 등록 성공"),
     GET_FAV_WEBTOON_LIST_SUCCESS("선호 작품 목록 조회 성공"),
-    DELETE_FAV_WEBTOON_SUCCESS("선호 작품 삭제 성공");
+    DELETE_FAV_WEBTOON_SUCCESS("선호 작품 삭제 성공"),
+    CREATE_COMMENT_SUCCESS("댓글 작성 성공"),
+    GET_COMMENT_LIST_SUCCESS("댓글 목록 조회 성공"),
+    UPDATE_COMMENT_SUCCESS("댓글 수정 성공"),
+    DELETE_COMMENT_SUCCESS("댓글 삭제 성공");
 
 
     private final String message;
