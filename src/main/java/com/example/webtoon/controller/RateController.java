@@ -9,6 +9,7 @@ import com.example.webtoon.service.RateService;
 import com.example.webtoon.type.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +39,14 @@ public class RateController {
                                      @RequestParam Integer userRate) {
         RateDto rateDto = rateService.updateRate(episodeId, currentUser.getId(), userRate);
         return new ApiResponse<>(HttpStatus.OK, ResponseCode.UPDATE_RATE_SUCCESS, rateDto);
+    }
+
+    // 평점 삭제
+    @DeleteMapping("/rate/{episodeId}")
+    public ApiResponse<Void> deleteRate(@PathVariable Long episodeId,
+        @CurrentUser UserPrincipal currentUser) {
+        rateService.deleteRate(episodeId, currentUser.getId());
+        return new ApiResponse<>(HttpStatus.OK, ResponseCode.DELETE_RATE_SUCCESS);
     }
 
     // 웹툰 평점 평균 불러오기

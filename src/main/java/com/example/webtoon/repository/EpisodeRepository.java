@@ -9,4 +9,7 @@ public interface EpisodeRepository extends JpaRepository<Episode, Long> {
 
     List<Episode> findByWebtoon_WebtoonId(Long webtoonId);
     Boolean existsByWebtoon_WebtoonIdAndTitle(Long webtoonId, String title);
+
+    @Query(value="Select avg(user_rate) from example.rate where episode_id = ?1", nativeQuery = true)
+    Double getAvgRate(Long id);
 }
