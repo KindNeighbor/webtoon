@@ -23,7 +23,10 @@ public enum ResponseCode {
     GET_EPISODES_SUCCESS("에피소드 목록 불러오기 성공"),
     CREATE_RATE_SUCCESS("평점 부여 성공"),
     UPDATE_RATE_SUCCESS("평점 수정 성공"),
-    DELETE_RATE_SUCCESS("평점 삭제 성공");
+    DELETE_RATE_SUCCESS("평점 삭제 성공"),
+    ADD_FAV_WEBTOON_SUCCESS("선호 작품 등록 성공"),
+    GET_FAV_WEBTOON_LIST_SUCCESS("선호 작품 목록 조회 성공"),
+    DELETE_FAV_WEBTOON_SUCCESS("선호 작품 삭제 성공");
 
 
     private final String message;

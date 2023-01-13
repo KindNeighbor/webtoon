@@ -49,4 +49,11 @@ public class UserController {
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_RATED_WEBTOON_LIST_SUCCESS, webtoonList);
     }
+
+    // 선호 작품 목록 조회
+    @GetMapping("/user/fav-webtoon")
+    public ApiResponse<List<WebtoonIdListDto>> getFavWebtoonList(@CurrentUser UserPrincipal currentUser) {
+        List<WebtoonIdListDto> favWebtoonList = userService.getFavWebtoonList(currentUser.getId());
+        return new ApiResponse<>(HttpStatus.OK, ResponseCode.GET_FAV_WEBTOON_LIST_SUCCESS, favWebtoonList);
+    }
 }

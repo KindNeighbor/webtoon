@@ -23,4 +23,9 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
         + "LEFT JOIN example.rate r on e.episode_id = r.episode_id "
         + "WHERE user_id = ?1", nativeQuery = true)
     Set<Webtoon> getWebtoonIdByUserId(Long userId);
+
+    @Query(value = "SELECT * FROM example.webtoon "
+        + "LEFT JOIN example.favorite f on webtoon.webtoon_id = f.webtoon_id "
+        + "WHERE user_id = ?1", nativeQuery = true)
+    List<Webtoon> findAllByUserId(Long userId);
 }
