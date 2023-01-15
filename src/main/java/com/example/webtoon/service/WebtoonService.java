@@ -66,6 +66,9 @@ public class WebtoonService {
 
     // 웹툰 삭제
     public void deleteWebtoon(Long webtoonId) {
+        if (!webtoonRepository.existsById(webtoonId)) {
+            throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.WEBTOON_NOT_FOUND);
+        }
         webtoonRepository.deleteById(webtoonId);
     }
 
@@ -110,6 +113,9 @@ public class WebtoonService {
 
     // 에피소드 삭제
     public void deleteEpisode(Long episodeId) {
+        if (!episodeRepository.existsById(episodeId)) {
+            throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.EPISODE_NOT_FOUND);
+        }
         episodeRepository.deleteById(episodeId);
     }
 
