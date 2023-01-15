@@ -70,7 +70,7 @@ public class CommentService {
 
     // 댓글 전체 목록 조회
     public List<CommentDto> getCommentList(Long episodeId) {
-        List<Comment> commentList = commentRepository.findAllByEpisodeId(episodeId);
+        List<Comment> commentList = commentRepository.findAllByEpisode_EpisodeId(episodeId);
         return commentList.stream().map(CommentDto::from).collect(Collectors.toList());
     }
 }

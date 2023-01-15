@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Query(value = "SELECT * FROM example.comment where episode_id = ?1", nativeQuery = true)
-    List<Comment> findAllByEpisodeId(Long episodeId);
+    List<Comment> findAllByEpisode_EpisodeId(Long episodeId);
 
     Optional<Comment> findByCommentIdAndUser_UserId(Long commentId, Long userId);
 
