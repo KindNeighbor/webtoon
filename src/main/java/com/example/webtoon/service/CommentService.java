@@ -51,12 +51,20 @@ public class CommentService {
 
         return CommentDto.from(comment);
     }
-
+    
     // 댓글 삭제
     public void deleteComment(Long commentId, Long userId) {
-        if (!commentRepository.existsByCommentIdAndUser_UserId(commentId, userId)) {
+
+        // 댓글이 있는지 확인
+        if (!commentRepository.existsByCommentId(commentId)) {
             throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.COMMENT_NOT_FOUND);
         }
+
+        // 그 댓글이 회원이 작성한 건지 확인
+        if (!commentRepository.existsByUserUserId(userId)) {
+            throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.USER_NOT_FOUND);
+        }
+
         commentRepository.deleteByCommentIdAndUser_UserId(commentId, userId);
     }
 
