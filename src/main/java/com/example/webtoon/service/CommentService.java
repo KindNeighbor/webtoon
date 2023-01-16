@@ -9,8 +9,6 @@ import com.example.webtoon.repository.CommentRepository;
 import com.example.webtoon.repository.EpisodeRepository;
 import com.example.webtoon.repository.UserRepository;
 import com.example.webtoon.type.ErrorCode;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

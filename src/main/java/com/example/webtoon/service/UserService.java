@@ -15,8 +15,6 @@ import com.example.webtoon.repository.UserRepository;
 import com.example.webtoon.repository.WebtoonRepository;
 import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.type.ErrorCode;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
