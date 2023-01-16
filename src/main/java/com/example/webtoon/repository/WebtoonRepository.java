@@ -2,6 +2,8 @@ package com.example.webtoon.repository;
 
 import com.example.webtoon.entity.Webtoon;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,5 +24,5 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
     @Query(value = "SELECT * FROM example.webtoon "
         + "LEFT JOIN example.favorite f on webtoon.webtoon_id = f.webtoon_id "
         + "WHERE user_id = ?1", nativeQuery = true)
-    List<Webtoon> findAllByUserId(Long userId);
+    Page<Webtoon> findAllByUserId(Long userId, Pageable pageable);
 }

@@ -18,12 +18,17 @@ import com.example.webtoon.type.ErrorCode;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    private final int SIZE = 10;
 
     private final UserRepository userRepository;
     private final WebtoonRepository webtoonRepository;
@@ -49,20 +54,23 @@ public class UserService {
     }
 
     // 유저가 평점 부여한 웹툰 목록 불러오기
-    public List<EpisodeIdListDto> getEpisodeRatedByUser(Long userId) {
-        List<Episode> episodeList = episodeRepository.findAllByUserId(userId);
-        return episodeList.stream().map(EpisodeIdListDto::from).collect(Collectors.toList());
+    public Page<EpisodeIdListDto> getEpisodeRatedByUser(Long userId, Integer page) {
+        Pageable pageable = PageRequest.of(page, SIZE);
+        Page<Episode> episodeList = episodeRepository.findAllByUserId(userId, pageable);
+        return episodeList.map(EpisodeIdListDto::from);
     }
 
     // 유저가 작성한 댓글 목록 조회
-    public List<CommentDto> getCommentsByUser(Long userId) {
-        List<Comment> commentList = commentRepository.findAllByUser_UserId(userId);
-        return commentList.stream().map(CommentDto::from).collect(Collectors.toList());
+    public Page<CommentDto> getCommentsByUser(Long userId, Integer page) {
+        Pageable pageable = PageRequest.of(page, SIZE);
+        Page<Comment> commentList = commentRepository.findAllByUser_UserId(userId, pageable);
+        return commentList.map(CommentDto::from);
     }
 
     // 선호 작품 목록 조회
-    public List<WebtoonIdListDto> getFavWebtoonList(Long userId) {
-        List<Webtoon> webtoonList = webtoonRepository.findAllByUserId(userId);
-        return webtoonList.stream().map(WebtoonIdListDto::from).collect(Collectors.toList());
+    public Page<WebtoonIdListDto> getFavWebtoonList(Long userId, Integer page) {
+        Pageable pageable = PageRequest.of(page, SIZE);
+        Page<Webtoon> webtoonList = webtoonRepository.findAllByUserId(userId, pageable);
+        return webtoonList.map(WebtoonIdListDto::from);
     }
 }

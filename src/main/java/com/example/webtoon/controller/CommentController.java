@@ -8,6 +8,7 @@ import com.example.webtoon.service.CommentService;
 import com.example.webtoon.type.ResponseCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -39,8 +41,9 @@ public class CommentController {
 
     // 댓글 전체 목록 조회
     @GetMapping("/comment/{episodeId}")
-    public ApiResponse<List<CommentDto>> getCommentList(@PathVariable Long episodeId) {
-        List<CommentDto> commentList = commentService.getCommentList(episodeId);
+    public ApiResponse<Page<CommentDto>> getCommentList(@PathVariable Long episodeId,
+                                                        @RequestParam(defaultValue = "0") Integer page) {
+        Page<CommentDto> commentList = commentService.getCommentList(episodeId, page);
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_COMMENT_LIST_SUCCESS, commentList);
     }

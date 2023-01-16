@@ -12,11 +12,13 @@ import com.example.webtoon.service.UserService;
 import com.example.webtoon.type.ResponseCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -46,24 +48,30 @@ public class UserController {
 
     // 유저가 평점 부여한 에피소드 목록 조회
     @GetMapping("/user/webtoon/rated")
-    public ApiResponse<List<EpisodeIdListDto>> getEpisodeRatedByUser(@CurrentUser UserPrincipal currentUser) {
-        List<EpisodeIdListDto> episodeList = userService.getEpisodeRatedByUser(currentUser.getId());
+    public ApiResponse<Page<EpisodeIdListDto>> getEpisodeRatedByUser(@CurrentUser UserPrincipal currentUser,
+                                                                     @RequestParam(defaultValue = "0") Integer page) {
+        Page<EpisodeIdListDto> episodeList =
+            userService.getEpisodeRatedByUser(currentUser.getId(), page);
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_RATED_EPISODE_LIST_SUCCESS, episodeList);
     }
 
     // 유저가 작성한 댓글 목록 조회
     @GetMapping("/user/comments")
-    public ApiResponse<List<CommentDto>> getCommentsByUser(@CurrentUser UserPrincipal currentUser) {
-        List<CommentDto> commentList = userService.getCommentsByUser(currentUser.getId());
+    public ApiResponse<Page<CommentDto>> getCommentsByUser(@CurrentUser UserPrincipal currentUser,
+                                                           @RequestParam(defaultValue = "0") Integer page) {
+        Page<CommentDto> commentList = userService.getCommentsByUser(currentUser.getId(), page);
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_COMMENT_LIST_SUCCESS, commentList);
     }
 
     // 선호 작품 목록 조회
     @GetMapping("/user/fav-webtoon")
-    public ApiResponse<List<WebtoonIdListDto>> getFavWebtoonList(@CurrentUser UserPrincipal currentUser) {
-        List<WebtoonIdListDto> favWebtoonList = userService.getFavWebtoonList(currentUser.getId());
-        return new ApiResponse<>(HttpStatus.OK, ResponseCode.GET_FAV_WEBTOON_LIST_SUCCESS, favWebtoonList);
+    public ApiResponse<Page<WebtoonIdListDto>> getFavWebtoonList(@CurrentUser UserPrincipal currentUser,
+                                                                 @RequestParam(defaultValue = "0") Integer page) {
+        Page<WebtoonIdListDto> favWebtoonList =
+            userService.getFavWebtoonList(currentUser.getId(), page);
+        return new ApiResponse<>(
+            HttpStatus.OK, ResponseCode.GET_FAV_WEBTOON_LIST_SUCCESS, favWebtoonList);
     }
 }

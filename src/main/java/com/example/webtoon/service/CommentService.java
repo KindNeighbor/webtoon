@@ -12,12 +12,17 @@ import com.example.webtoon.type.ErrorCode;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class CommentService {
+
+    private final int SIZE = 10;
 
     private final EpisodeRepository episodeRepository;
     private final UserRepository userRepository;
@@ -51,7 +56,7 @@ public class CommentService {
 
         return CommentDto.from(comment);
     }
-    
+
     // 댓글 삭제
     public void deleteComment(Long commentId, Long userId) {
 
@@ -77,8 +82,9 @@ public class CommentService {
     }
 
     // 댓글 전체 목록 조회
-    public List<CommentDto> getCommentList(Long episodeId) {
-        List<Comment> commentList = commentRepository.findAllByEpisode_EpisodeId(episodeId);
-        return commentList.stream().map(CommentDto::from).collect(Collectors.toList());
+    public Page<CommentDto> getCommentList(Long episodeId, Integer page) {
+        Pageable pageable = PageRequest.of(page, SIZE);
+        Page<Comment> commentList = commentRepository.findAllByEpisode_EpisodeId(episodeId, pageable);
+        return commentList.map(CommentDto::from);
     }
 }

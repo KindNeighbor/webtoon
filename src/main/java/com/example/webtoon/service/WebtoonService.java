@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 public class WebtoonService {
+
+    private final int SIZE = 10;
 
     private final WebtoonRepository webtoonRepository;
     private final EpisodeRepository episodeRepository;
@@ -125,8 +130,10 @@ public class WebtoonService {
         return webtoonList.stream().map(WebtoonDto::from).collect(Collectors.toList());
     }
 
-    public List<EpisodeDto> getWebtoonEpisodes(Long webtoonId) {
-        List<Episode> episodeList = episodeRepository.findByWebtoon_WebtoonId(webtoonId);
-        return episodeList.stream().map(EpisodeDto::from).collect(Collectors.toList());
+    // 웹툰 에피소드 전체 목록 조회
+    public Page<EpisodeDto> getWebtoonEpisodes(Long webtoonId, Integer page) {
+        Pageable pageable = PageRequest.of(page, SIZE);
+        Page<Episode> episodeList = episodeRepository.findByWebtoon_WebtoonId(webtoonId, pageable);
+        return episodeList.map(EpisodeDto::from);
     }
 }
