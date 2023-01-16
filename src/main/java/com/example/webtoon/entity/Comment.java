@@ -32,4 +32,8 @@ public class Comment extends DateEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Comment(String userComment) {
+        this.comment = userComment;
+    }
 }

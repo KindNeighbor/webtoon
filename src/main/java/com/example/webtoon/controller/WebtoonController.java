@@ -8,6 +8,7 @@ import com.example.webtoon.type.ResponseCode;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -99,10 +100,11 @@ public class WebtoonController {
         return new ApiResponse<>(HttpStatus.OK, ResponseCode.DELETE_EPISODE_SUCCESS);
     }
 
-    // 웹툰 에피소드 조회 (조회 부분은 추후 정렬하면서 구조 변경 예정)
+    // 웹툰 에피소드 조회
     @GetMapping("/webtoon/episodes/{webtoonId}")
-    public ApiResponse<List<EpisodeDto>> getWebtoonEpisodes(@PathVariable Long webtoonId) {
-        List<EpisodeDto> episodeDtoList = webtoonService.getWebtoonEpisodes(webtoonId);
+    public ApiResponse<Page<EpisodeDto>> getWebtoonEpisodes(@PathVariable Long webtoonId,
+                                                            @RequestParam(defaultValue = "0") Integer page) {
+        Page<EpisodeDto> episodeDtoList = webtoonService.getWebtoonEpisodes(webtoonId, page);
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_EPISODES_SUCCESS, episodeDtoList);
     }

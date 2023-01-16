@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties.Io;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 public class WebtoonService {
+
+    private final int SIZE = 10;
 
     private final WebtoonRepository webtoonRepository;
     private final EpisodeRepository episodeRepository;
@@ -67,6 +71,9 @@ public class WebtoonService {
 
     // 웹툰 삭제
     public void deleteWebtoon(Long webtoonId) {
+        if (!webtoonRepository.existsById(webtoonId)) {
+            throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.WEBTOON_NOT_FOUND);
+        }
         webtoonRepository.deleteById(webtoonId);
     }
 
@@ -111,6 +118,9 @@ public class WebtoonService {
 
     // 에피소드 삭제
     public void deleteEpisode(Long episodeId) {
+        if (!episodeRepository.existsById(episodeId)) {
+            throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.EPISODE_NOT_FOUND);
+        }
         episodeRepository.deleteById(episodeId);
     }
 
@@ -120,8 +130,10 @@ public class WebtoonService {
         return webtoonList.stream().map(WebtoonDto::from).collect(Collectors.toList());
     }
 
-    public List<EpisodeDto> getWebtoonEpisodes(Long webtoonId) {
-        List<Episode> episodeList = episodeRepository.findByWebtoon_WebtoonId(webtoonId);
-        return episodeList.stream().map(EpisodeDto::from).collect(Collectors.toList());
+    // 웹툰 에피소드 전체 목록 조회
+    public Page<EpisodeDto> getWebtoonEpisodes(Long webtoonId, Integer page) {
+        Pageable pageable = PageRequest.of(page, SIZE);
+        Page<Episode> episodeList = episodeRepository.findByWebtoon_WebtoonId(webtoonId, pageable);
+        return episodeList.map(EpisodeDto::from);
     }
 }
