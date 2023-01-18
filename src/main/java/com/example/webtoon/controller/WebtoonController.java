@@ -123,4 +123,17 @@ public class WebtoonController {
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_WEBTOON_BY_DAY_SUCCESS, webtoonList);
     }
+
+    // 검색한 웹툰 조회
+    @GetMapping("/webtoon-search")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<Page<WebtoonDto>> searchWebtoons(
+        @RequestParam String keyword,
+        @RequestParam(defaultValue = "0") Integer page) {
+
+        Page<WebtoonDto> webtoons = webtoonService.searchWebtoons(keyword, page);
+
+        return new ApiResponse<>(
+            HttpStatus.OK, ResponseCode.GET_WEBTOON_BY_SEARCH, webtoons);
+    }
 }

@@ -323,4 +323,6 @@ gradle-app.setting
 src/main/resources/static/webtoons
 src/main/resources/application.yml
 
+docker-compose.yml
+Dockerfile
 # End of https://www.toptal.com/developers/gitignore/api/intellij,intellij+all,intellij+iml,java,gradle

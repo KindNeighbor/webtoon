@@ -1,0 +1,17 @@
+{
+  "properties" : {
+    "webtoonId" : {"type" : "long"},
+    "title" : {
+      "type" : "text",
+      "analyzer" : "korean"
+    },
+    "artist" : {
+      "type" : "text",
+      "analyzer" : "korean"
+    },
+    "genre" : {
+      "type" : "text",
+      "analyzer" : "korean"
+    }
+  }
+}
