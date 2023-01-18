@@ -4,9 +4,10 @@ import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.EpisodeDto;
 import com.example.webtoon.dto.WebtoonDto;
 import com.example.webtoon.service.WebtoonService;
+import com.example.webtoon.type.Day;
 import com.example.webtoon.type.ResponseCode;
+import com.example.webtoon.type.SortType;
 import java.io.IOException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,7 +34,7 @@ public class WebtoonController {
     @PostMapping("/webtoon")
     public ApiResponse<WebtoonDto> addWebtoon(@RequestParam String title,
                                      @RequestParam String artist,
-                                     @RequestParam String day,
+                                     @RequestParam Day day,
                                      @RequestParam String genre,
                                      @RequestParam MultipartFile file) throws IOException {
 
@@ -48,7 +48,7 @@ public class WebtoonController {
     @PutMapping("/webtoon/{webtoonId}")
     public ApiResponse<WebtoonDto> updateWebtoon(@PathVariable Long webtoonId,
                                         @RequestParam String title, @RequestParam String artist,
-                                        @RequestParam String day, @RequestParam String genre,
+                                        @RequestParam Day day, @RequestParam String genre,
                                         @RequestParam MultipartFile file) throws IOException {
 
         WebtoonDto webtoonDto =
@@ -112,13 +112,12 @@ public class WebtoonController {
 
     // 웹툰 요일별 조회 (업데이트순, 평점순, 조회수순)
     @GetMapping("/webtoon")
-    @ResponseStatus(HttpStatus.OK)
     public ApiResponse<Page<WebtoonDto>> getWebtoonByDay(
         @RequestParam(defaultValue = "월요일") String day,
-        @RequestParam(defaultValue = "new") String orderType,
+        @RequestParam(defaultValue = "new") SortType sortType,
         @RequestParam(defaultValue = "0") Integer page) {
 
-        Page<WebtoonDto> webtoonList = webtoonService.getWebtoonByDay(day, orderType, page);
+        Page<WebtoonDto> webtoonList = webtoonService.getWebtoonByDay(day, sortType, page);
 
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_WEBTOON_BY_DAY_SUCCESS, webtoonList);
@@ -126,7 +125,6 @@ public class WebtoonController {
 
     // 검색한 웹툰 조회
     @GetMapping("/webtoon-search")
-    @ResponseStatus(HttpStatus.OK)
     public ApiResponse<Page<WebtoonDto>> searchWebtoons(
         @RequestParam String keyword,
         @RequestParam(defaultValue = "0") Integer page) {

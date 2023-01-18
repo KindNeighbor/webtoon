@@ -1,6 +1,8 @@
 package com.example.webtoon.type;
 
 import com.example.webtoon.exception.CustomException;
+import java.util.Arrays;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.domain.Sort;
@@ -18,11 +20,11 @@ public enum SortType {
     private final String column;
     private final String order;
 
-    public static Sort getSort(SortType order) {
+    public static Sort getSort(SortType sortType) {
 
         Sort sort;
-        if (order.getOrder().equals("desc")) {
-            sort = Sort.by(order.getColumn()).descending();
+        if (sortType.getOrder().equals("desc")) {
+            sort = Sort.by(sortType.getColumn()).descending();
         } else {
             throw new CustomException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.ORDER_TYPE_NOT_FOUND);
         }

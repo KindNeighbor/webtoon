@@ -10,6 +10,7 @@ import com.example.webtoon.exception.CustomException;
 import com.example.webtoon.repository.EpisodeRepository;
 import com.example.webtoon.repository.WebtoonRepository;
 import com.example.webtoon.repository.WebtoonSearchRepository;
+import com.example.webtoon.type.Day;
 import com.example.webtoon.type.ErrorCode;
 import com.example.webtoon.type.SortType;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class WebtoonService {
 
     // 웹툰 신규 등록
     public WebtoonDto addWebtoon(String title, String artist,
-                                 String day, String genre,
+                                 Day day, String genre,
                                  MultipartFile file) throws IOException {
 
         if (webtoonRepository.existsByTitle(title)) {
@@ -62,7 +63,7 @@ public class WebtoonService {
     // 웹툰 수정
     public WebtoonDto updateWebtoon(Long webtoonId,
                                     String title, String artist,
-                                    String day, String genre,
+                                    Day day, String genre,
                                     MultipartFile file) throws IOException {
 
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(() ->
@@ -136,20 +137,13 @@ public class WebtoonService {
     }
 
     // 웹툰 요일별 조회
-    public Page<WebtoonDto> getWebtoonByDay(String day, String orderType, Integer page) {
+    public Page<WebtoonDto> getWebtoonByDay(String day, SortType sortType, Integer page) {
 
         if (!webtoonRepository.existsByDayContaining(day)) {
             throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.WEBTOON_NOT_FOUND);
         }
 
-        Optional<SortType> optionalOrder = Arrays.stream(SortType.values()).filter(
-            it -> it.getType().equals(orderType)).findFirst();
-
-        if (optionalOrder.isEmpty()) {
-            throw new CustomException(HttpStatus.BAD_REQUEST, ErrorCode.ORDER_TYPE_NOT_FOUND);
-        }
-
-        Sort sort = SortType.getSort(optionalOrder.get());
+        Sort sort = SortType.getSort(sortType);
         Pageable pageable = PageRequest.of(page, SIZE, sort);
         Page<Webtoon> webtoons = webtoonRepository.findByDay(day, pageable);
 
@@ -167,6 +161,7 @@ public class WebtoonService {
         return episodeList.map(EpisodeDto::from);
     }
 
+    // 검색한 웹툰 조회
     public Page<WebtoonDto> searchWebtoons(String keyword, Integer page) {
         Pageable pageable = PageRequest.of(page, SIZE);
         Page<WebtoonDocument> webtoons =

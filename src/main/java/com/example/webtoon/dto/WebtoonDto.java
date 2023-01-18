@@ -1,6 +1,7 @@
 package com.example.webtoon.dto;
 
 import com.example.webtoon.entity.Webtoon;
+import com.example.webtoon.type.Day;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class WebtoonDto {
     private Long webtoonId;
     private String title;
     private String artist;
-    private String day;
+    private Day day;
     private String genre;
 
     public static WebtoonDto from(Webtoon webtoon) {
