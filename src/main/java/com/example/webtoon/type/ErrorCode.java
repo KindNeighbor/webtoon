@@ -21,6 +21,7 @@ public enum ErrorCode {
     RATE_NOT_FOUND("일치하는 평점이 존재하지 않습니다."),
     FAV_WEBTOON_NOT_FOUND("일치하는 선호작품이 없습니다."),
     COMMENT_NOT_FOUND("일치하는 댓글이 없습니다."),
+    ORDER_TYPE_NOT_FOUND("일치하는 정렬 타입이 존재하지 않습니다."),
     AUTHENTICATION_NOT_MATCHED("인증정보가 일치하지 않습니다."),
     UNAUTHORIZED_USER("사용자에게 권한이 없습니다.");
 

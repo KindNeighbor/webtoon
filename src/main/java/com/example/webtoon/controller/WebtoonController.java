@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -109,11 +110,17 @@ public class WebtoonController {
             HttpStatus.OK, ResponseCode.GET_EPISODES_SUCCESS, episodeDtoList);
     }
 
-    // 요일로 웹툰 조회 (조회 부분은 추후 정렬하면서 구조 변경 예정)
-    @GetMapping("/webtoon/day")
-    public ApiResponse<List<WebtoonDto>> getWebtoonByDay(@RequestParam String day) {
-        List<WebtoonDto> webtoonByDay = webtoonService.getWebtoonByDay(day);
+    // 웹툰 요일별 조회 (업데이트순, 평점순, 조회수순)
+    @GetMapping("/webtoon")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<Page<WebtoonDto>> getWebtoonByDay(
+        @RequestParam(defaultValue = "월요일") String day,
+        @RequestParam(defaultValue = "new") String orderType,
+        @RequestParam(defaultValue = "0") Integer page) {
+
+        Page<WebtoonDto> webtoonList = webtoonService.getWebtoonByDay(day, orderType, page);
+
         return new ApiResponse<>(
-            HttpStatus.OK, ResponseCode.GET_WEBTOON_BY_DAY_SUCCESS, webtoonByDay);
+            HttpStatus.OK, ResponseCode.GET_WEBTOON_BY_DAY_SUCCESS, webtoonList);
     }
 }
