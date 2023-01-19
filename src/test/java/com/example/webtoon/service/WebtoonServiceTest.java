@@ -22,7 +22,6 @@ import com.example.webtoon.exception.CustomException;
 import com.example.webtoon.repository.EpisodeRepository;
 import com.example.webtoon.repository.WebtoonRepository;
 import com.example.webtoon.repository.WebtoonSearchRepository;
-import com.example.webtoon.type.Day;
 import com.example.webtoon.type.ErrorCode;
 import java.io.IOException;
 import java.util.Optional;
@@ -63,7 +62,7 @@ class WebtoonServiceTest {
         Webtoon webtoon = Webtoon.builder()
             .title("testTitle")
             .artist("testArtist")
-            .day(Day.MON)
+            .day("testDay")
             .genre("testGenre")
             .webtoonThumbnail(webtoonThumbnail)
             .episodes(null)
@@ -100,7 +99,7 @@ class WebtoonServiceTest {
         Webtoon webtoon = Webtoon.builder()
             .title("testTitle")
             .artist("testArtist")
-            .day(Day.MON)
+            .day("testDay")
             .genre("testGenre")
             .webtoonThumbnail(webtoonThumbnail)
             .episodes(null)
@@ -135,7 +134,7 @@ class WebtoonServiceTest {
             .webtoonId(10L)
             .title("testTitle")
             .artist("testArtist")
-            .day(Day.MON)
+            .day("testDay")
             .genre("testGenre")
             .webtoonThumbnail(webtoonThumbnail1)
             .episodes(null)
@@ -147,13 +146,13 @@ class WebtoonServiceTest {
 
         // when
         webtoonService.updateWebtoon(10L, "updateTitle", "updateArtist",
-            Day.MON, "updateGenre", multipartFile);
+            "testDay", "updateGenre", multipartFile);
 
         // then
         verify(webtoonRepository, times(1)).save(any());
         assertEquals("updateTitle", webtoon.getTitle());
         assertEquals("updateArtist", webtoon.getArtist());
-        assertEquals(Day.MON, webtoon.getDay());
+        assertEquals("testDay", webtoon.getDay());
         assertEquals("updateGenre", webtoon.getGenre());
         assertEquals("testFileName2", webtoon.getWebtoonThumbnail().getFileName());
         assertEquals("testUri2", webtoon.getWebtoonThumbnail().getFileUri());
@@ -173,7 +172,7 @@ class WebtoonServiceTest {
         // when
         CustomException exception = assertThrows(CustomException.class,
             () -> webtoonService.updateWebtoon(10L, "updateTitle", "updateArtist",
-                Day.MON, "updateGenre", multipartFile));
+                "testDay", "updateGenre", multipartFile));
 
         // then
         assertEquals(NOT_FOUND, exception.getStatusMessage());
@@ -194,7 +193,7 @@ class WebtoonServiceTest {
             .webtoonId(10L)
             .title("testTitle")
             .artist("testArtist")
-            .day(Day.MON)
+            .day("testDay")
             .genre("testGenre")
             .webtoonThumbnail(null)
             .episodes(null)
@@ -288,7 +287,7 @@ class WebtoonServiceTest {
             .webtoonId(10L)
             .title("testTitle")
             .artist("testArtist")
-            .day(Day.MON)
+            .day("testDay")
             .genre("testGenre")
             .webtoonThumbnail(null)
             .episodes(null)

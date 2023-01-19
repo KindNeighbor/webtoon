@@ -4,11 +4,11 @@ import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.EpisodeDto;
 import com.example.webtoon.dto.WebtoonDto;
 import com.example.webtoon.service.WebtoonService;
-import com.example.webtoon.type.Day;
 import com.example.webtoon.type.ResponseCode;
 import com.example.webtoon.type.SortType;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,7 +34,7 @@ public class WebtoonController {
     @PostMapping("/webtoon")
     public ApiResponse<WebtoonDto> addWebtoon(@RequestParam String title,
                                      @RequestParam String artist,
-                                     @RequestParam Day day,
+                                     @RequestParam String day,
                                      @RequestParam String genre,
                                      @RequestParam MultipartFile file) throws IOException {
 
@@ -48,7 +48,7 @@ public class WebtoonController {
     @PutMapping("/webtoon/{webtoonId}")
     public ApiResponse<WebtoonDto> updateWebtoon(@PathVariable Long webtoonId,
                                         @RequestParam String title, @RequestParam String artist,
-                                        @RequestParam Day day, @RequestParam String genre,
+                                        @RequestParam String day, @RequestParam String genre,
                                         @RequestParam MultipartFile file) throws IOException {
 
         WebtoonDto webtoonDto =
@@ -102,6 +102,7 @@ public class WebtoonController {
     }
 
     // 웹툰 에피소드 조회
+    @Cacheable(key = "#webtoonId", value = "webtoonId")
     @GetMapping("/webtoon/episodes/{webtoonId}")
     public ApiResponse<Page<EpisodeDto>> getWebtoonEpisodes(@PathVariable Long webtoonId,
                                                             @RequestParam(defaultValue = "0") Integer page) {

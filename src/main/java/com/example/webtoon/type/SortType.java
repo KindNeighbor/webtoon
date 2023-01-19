@@ -12,11 +12,10 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum SortType {
 
-    NEW("new", "updated_at", "desc"),
-    RATE("rate", "avg_rate", "desc"),
-    VIEW("view","view_count", "desc");
+    NEW("updated_at", "desc"),
+    RATE("avg_rate", "desc"),
+    VIEW("view_count", "desc");
 
-    private final String type;
     private final String column;
     private final String order;
 

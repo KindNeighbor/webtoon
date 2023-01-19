@@ -10,14 +10,9 @@ import com.example.webtoon.exception.CustomException;
 import com.example.webtoon.repository.EpisodeRepository;
 import com.example.webtoon.repository.WebtoonRepository;
 import com.example.webtoon.repository.WebtoonSearchRepository;
-import com.example.webtoon.type.Day;
 import com.example.webtoon.type.ErrorCode;
 import com.example.webtoon.type.SortType;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +35,7 @@ public class WebtoonService {
 
     // 웹툰 신규 등록
     public WebtoonDto addWebtoon(String title, String artist,
-                                 Day day, String genre,
+                                 String day, String genre,
                                  MultipartFile file) throws IOException {
 
         if (webtoonRepository.existsByTitle(title)) {
@@ -63,7 +58,7 @@ public class WebtoonService {
     // 웹툰 수정
     public WebtoonDto updateWebtoon(Long webtoonId,
                                     String title, String artist,
-                                    Day day, String genre,
+                                    String day, String genre,
                                     MultipartFile file) throws IOException {
 
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(() ->
