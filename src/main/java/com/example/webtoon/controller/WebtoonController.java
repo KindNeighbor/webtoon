@@ -5,9 +5,10 @@ import com.example.webtoon.dto.EpisodeDto;
 import com.example.webtoon.dto.WebtoonDto;
 import com.example.webtoon.service.WebtoonService;
 import com.example.webtoon.type.ResponseCode;
+import com.example.webtoon.type.SortType;
 import java.io.IOException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -101,6 +102,7 @@ public class WebtoonController {
     }
 
     // 웹툰 에피소드 조회
+    @Cacheable(key = "#webtoonId", value = "webtoonId")
     @GetMapping("/webtoon/episodes/{webtoonId}")
     public ApiResponse<Page<EpisodeDto>> getWebtoonEpisodes(@PathVariable Long webtoonId,
                                                             @RequestParam(defaultValue = "0") Integer page) {
@@ -109,11 +111,28 @@ public class WebtoonController {
             HttpStatus.OK, ResponseCode.GET_EPISODES_SUCCESS, episodeDtoList);
     }
 
-    // 요일로 웹툰 조회 (조회 부분은 추후 정렬하면서 구조 변경 예정)
-    @GetMapping("/webtoon/day")
-    public ApiResponse<List<WebtoonDto>> getWebtoonByDay(@RequestParam String day) {
-        List<WebtoonDto> webtoonByDay = webtoonService.getWebtoonByDay(day);
+    // 웹툰 요일별 조회 (업데이트순, 평점순, 조회수순)
+    @GetMapping("/webtoon")
+    public ApiResponse<Page<WebtoonDto>> getWebtoonByDay(
+        @RequestParam(defaultValue = "월요일") String day,
+        @RequestParam(defaultValue = "new") SortType sortType,
+        @RequestParam(defaultValue = "0") Integer page) {
+
+        Page<WebtoonDto> webtoonList = webtoonService.getWebtoonByDay(day, sortType, page);
+
         return new ApiResponse<>(
-            HttpStatus.OK, ResponseCode.GET_WEBTOON_BY_DAY_SUCCESS, webtoonByDay);
+            HttpStatus.OK, ResponseCode.GET_WEBTOON_BY_DAY_SUCCESS, webtoonList);
+    }
+
+    // 검색한 웹툰 조회
+    @GetMapping("/webtoon-search")
+    public ApiResponse<Page<WebtoonDto>> searchWebtoons(
+        @RequestParam String keyword,
+        @RequestParam(defaultValue = "0") Integer page) {
+
+        Page<WebtoonDto> webtoons = webtoonService.searchWebtoons(keyword, page);
+
+        return new ApiResponse<>(
+            HttpStatus.OK, ResponseCode.GET_WEBTOON_BY_SEARCH, webtoons);
     }
 }

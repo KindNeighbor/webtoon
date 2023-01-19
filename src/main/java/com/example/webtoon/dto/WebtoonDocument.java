@@ -1,32 +1,41 @@
 package com.example.webtoon.dto;
 
 import com.example.webtoon.entity.Webtoon;
+import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Mapping;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class WebtoonDto {
+@Document(indexName = "webtoon")
+@Mapping(mappingPath = "elastic/webtoon-mapping.json")
+@Setting(settingPath = "elastic/webtoon-setting.json")
+public class WebtoonDocument {
 
-    private Long webtoonId;
+    @Id
+    private Long id;
+
     private String title;
+
     private String artist;
-    private String day;
+
     private String genre;
 
-    public static WebtoonDto from(Webtoon webtoon) {
+    public static WebtoonDocument from(Webtoon webtoon) {
 
-        return WebtoonDto.builder()
-            .webtoonId(webtoon.getWebtoonId())
+        return WebtoonDocument.builder()
+            .id(webtoon.getWebtoonId())
             .title(webtoon.getTitle())
             .artist(webtoon.getArtist())
-            .day(webtoon.getDay())
             .genre(webtoon.getGenre())
             .build();
     }

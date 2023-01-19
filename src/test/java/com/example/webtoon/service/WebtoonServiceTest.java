@@ -21,6 +21,7 @@ import com.example.webtoon.entity.WebtoonThumbnail;
 import com.example.webtoon.exception.CustomException;
 import com.example.webtoon.repository.EpisodeRepository;
 import com.example.webtoon.repository.WebtoonRepository;
+import com.example.webtoon.repository.WebtoonSearchRepository;
 import com.example.webtoon.type.ErrorCode;
 import java.io.IOException;
 import java.util.Optional;
@@ -42,6 +43,8 @@ class WebtoonServiceTest {
     private EpisodeRepository episodeRepository;
     @Mock
     private FileService fileService;
+    @Mock
+    private WebtoonSearchRepository webtoonSearchRepository;
     @InjectMocks
     private WebtoonService webtoonService;
 
@@ -75,6 +78,7 @@ class WebtoonServiceTest {
 
         // then
         verify(webtoonRepository, times(1)).save(any());
+        verify(webtoonSearchRepository, times(1)).save(any());
         assertEquals(webtoonDto1.getWebtoonId(), webtoonDto2.getWebtoonId());
         assertEquals(webtoonDto1.getTitle(), webtoonDto2.getTitle());
         assertEquals(webtoonDto1.getArtist(), webtoonDto2.getArtist());
@@ -142,13 +146,13 @@ class WebtoonServiceTest {
 
         // when
         webtoonService.updateWebtoon(10L, "updateTitle", "updateArtist",
-            "updateDay", "updateGenre", multipartFile);
+            "testDay", "updateGenre", multipartFile);
 
         // then
         verify(webtoonRepository, times(1)).save(any());
         assertEquals("updateTitle", webtoon.getTitle());
         assertEquals("updateArtist", webtoon.getArtist());
-        assertEquals("updateDay", webtoon.getDay());
+        assertEquals("testDay", webtoon.getDay());
         assertEquals("updateGenre", webtoon.getGenre());
         assertEquals("testFileName2", webtoon.getWebtoonThumbnail().getFileName());
         assertEquals("testUri2", webtoon.getWebtoonThumbnail().getFileUri());
@@ -156,24 +160,11 @@ class WebtoonServiceTest {
 
     @Test
     @DisplayName("웹툰 수정 실패 - 일치하는 웹툰 없음")
-    void updateWebtoonFailed_WebtoonNotFound() throws IOException {
+    void updateWebtoonFailed_WebtoonNotFound() {
 
         // given
         MultipartFile multipartFile = new MockMultipartFile(
             "test.jpg", "test.jpg", "byte", "test.jpg".getBytes());
-
-        WebtoonThumbnail webtoonThumbnail =
-            new WebtoonThumbnail("testFileName1", "testUri1");
-
-        Webtoon webtoon = Webtoon.builder()
-            .webtoonId(10L)
-            .title("testTitle")
-            .artist("testArtist")
-            .day("testDay")
-            .genre("testGenre")
-            .webtoonThumbnail(webtoonThumbnail)
-            .episodes(null)
-            .build();
 
         given(webtoonRepository.findById(anyLong())).willReturn(Optional.empty());
 
@@ -181,7 +172,7 @@ class WebtoonServiceTest {
         // when
         CustomException exception = assertThrows(CustomException.class,
             () -> webtoonService.updateWebtoon(10L, "updateTitle", "updateArtist",
-                "updateDay", "updateGenre", multipartFile));
+                "testDay", "updateGenre", multipartFile));
 
         // then
         assertEquals(NOT_FOUND, exception.getStatusMessage());
@@ -237,7 +228,7 @@ class WebtoonServiceTest {
 
     @Test
     @DisplayName("에피소드 등록 실패 - 에피소드 제목 중복")
-    void createEpisodeFailed_AlreadyExistTitle() throws IOException {
+    void createEpisodeFailed_AlreadyExistTitle() {
 
         // given
         MultipartFile epFile = new MockMultipartFile(
@@ -260,7 +251,7 @@ class WebtoonServiceTest {
 
     @Test
     @DisplayName("에피소드 등록 실패 - 일치하는 웹툰 없음")
-    void createEpisodeFailed_WebtoonNotFound() throws IOException {
+    void createEpisodeFailed_WebtoonNotFound() {
 
         // given
         MultipartFile epFile = new MockMultipartFile(
@@ -328,23 +319,13 @@ class WebtoonServiceTest {
 
     @Test
     @DisplayName("에피소드 수정 실패 - 일치하는 에피소드 없음")
-    void updateEpisodeFailed_EpisodeNotFound() throws IOException {
+    void updateEpisodeFailed_EpisodeNotFound() {
 
         // given
         MultipartFile epFile = new MockMultipartFile(
             "test.jpg", "test.jpg", "byte", "test.jpg".getBytes());
         MultipartFile thFile = new MockMultipartFile(
             "test.jpg", "test.jpg", "byte", "test.jpg".getBytes());
-
-        Webtoon webtoon = Webtoon.builder()
-            .webtoonId(10L)
-            .title("testTitle")
-            .artist("testArtist")
-            .day("testDay")
-            .genre("testGenre")
-            .webtoonThumbnail(null)
-            .episodes(null)
-            .build();
 
         given(episodeRepository.findById(anyLong())).willReturn(Optional.empty());
 

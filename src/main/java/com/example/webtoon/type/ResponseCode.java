@@ -16,6 +16,7 @@ public enum ResponseCode {
     DELETE_WEBTOON_SUCCESS("웹툰 삭제 성공"),
     GET_WEBTOON_AVG_RAGE_SUCCESS("웹툰 평균 평점 불러오기 성공"),
     GET_WEBTOON_BY_DAY_SUCCESS("요일별 웹툰 불러오기 성공"),
+    GET_WEBTOON_BY_SEARCH("검색한 웹툰 불러오기 성공"),
     CREATE_NEW_EPISODE("신규 에피소드 등록 성공"),
     UPDATE_EPISODE_SUCCESS("에피소드 수정 성공"),
     DELETE_EPISODE_SUCCESS("에피소드 삭제 성공"),
