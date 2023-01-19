@@ -1,5 +1,6 @@
 package com.example.webtoon.controller;
 
+import com.example.webtoon.config.RestPage;
 import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.EpisodeDto;
 import com.example.webtoon.dto.WebtoonDto;
@@ -102,26 +103,27 @@ public class WebtoonController {
     }
 
     // 웹툰 에피소드 조회
-    @Cacheable(key = "#webtoonId", value = "webtoonId")
+    @Cacheable(key = "#webtoonId + ', page: ' + #page", value = "episodeList")
     @GetMapping("/webtoon/episodes/{webtoonId}")
     public ApiResponse<Page<EpisodeDto>> getWebtoonEpisodes(@PathVariable Long webtoonId,
                                                             @RequestParam(defaultValue = "0") Integer page) {
         Page<EpisodeDto> episodeDtoList = webtoonService.getWebtoonEpisodes(webtoonId, page);
         return new ApiResponse<>(
-            HttpStatus.OK, ResponseCode.GET_EPISODES_SUCCESS, episodeDtoList);
+            HttpStatus.OK, ResponseCode.GET_EPISODES_SUCCESS, new RestPage<>(episodeDtoList));
     }
 
     // 웹툰 요일별 조회 (업데이트순, 평점순, 조회수순)
+    @Cacheable(key = "#day + ', sort: ' + #sortType.toString() + ', page: ' + #page", value = "webtoonList")
     @GetMapping("/webtoon")
     public ApiResponse<Page<WebtoonDto>> getWebtoonByDay(
-        @RequestParam(defaultValue = "월요일") String day,
+        @RequestParam(defaultValue = "MON") String day,
         @RequestParam(defaultValue = "new") SortType sortType,
         @RequestParam(defaultValue = "0") Integer page) {
 
         Page<WebtoonDto> webtoonList = webtoonService.getWebtoonByDay(day, sortType, page);
 
         return new ApiResponse<>(
-            HttpStatus.OK, ResponseCode.GET_WEBTOON_BY_DAY_SUCCESS, webtoonList);
+            HttpStatus.OK, ResponseCode.GET_WEBTOON_BY_DAY_SUCCESS, new RestPage<>(webtoonList));
     }
 
     // 검색한 웹툰 조회

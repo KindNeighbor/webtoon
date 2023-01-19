@@ -1,5 +1,9 @@
 package com.example.webtoon.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import java.time.LocalDateTime;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -16,8 +20,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class DateEntity {
 
     @CreatedDate
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDateTime updatedAt;
 }

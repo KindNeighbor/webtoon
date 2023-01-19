@@ -1,11 +1,21 @@
 package com.example.webtoon.dto;
 
 import com.example.webtoon.type.ResponseCode;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 
@@ -13,7 +23,6 @@ import org.springframework.lang.Nullable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class ApiResponse<T> {
 
     private int status;

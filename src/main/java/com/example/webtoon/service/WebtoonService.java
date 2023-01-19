@@ -14,6 +14,7 @@ import com.example.webtoon.type.ErrorCode;
 import com.example.webtoon.type.SortType;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +35,7 @@ public class WebtoonService {
     private final FileService fileService;
 
     // 웹툰 신규 등록
+    @CacheEvict(value = "webtoonList", allEntries = true)
     public WebtoonDto addWebtoon(String title, String artist,
                                  String day, String genre,
                                  MultipartFile file) throws IOException {
@@ -56,6 +58,7 @@ public class WebtoonService {
     }
 
     // 웹툰 수정
+    @CacheEvict(value = "webtoonList", allEntries = true)
     public WebtoonDto updateWebtoon(Long webtoonId,
                                     String title, String artist,
                                     String day, String genre,
@@ -77,6 +80,7 @@ public class WebtoonService {
     }
 
     // 웹툰 삭제
+    @CacheEvict(value = "webtoonList", allEntries = true)
     public void deleteWebtoon(Long webtoonId) {
         if (!webtoonRepository.existsById(webtoonId)) {
             throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.WEBTOON_NOT_FOUND);
@@ -85,6 +89,7 @@ public class WebtoonService {
     }
 
     // 에피소드 신규 등록
+    @CacheEvict(value = "episodeList", allEntries = true)
     public EpisodeDto addEpisode(Long webtoonId,
                                  String title,
                                  MultipartFile epFile,
@@ -107,6 +112,7 @@ public class WebtoonService {
     }
 
     // 에피소드 수정
+    @CacheEvict(value = "episodeList", allEntries = true)
     public EpisodeDto updateEpisode(Long episodeId,
                                     String title,
                                     MultipartFile epFile,
@@ -124,6 +130,7 @@ public class WebtoonService {
     }
 
     // 에피소드 삭제
+    @CacheEvict(value = "episodeList", allEntries = true)
     public void deleteEpisode(Long episodeId) {
         if (!episodeRepository.existsById(episodeId)) {
             throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.EPISODE_NOT_FOUND);
