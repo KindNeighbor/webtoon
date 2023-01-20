@@ -4,10 +4,14 @@ import com.example.webtoon.config.RestPage;
 import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.EpisodeDto;
 import com.example.webtoon.dto.WebtoonDto;
+import com.example.webtoon.repository.ViewRepository;
+import com.example.webtoon.repository.WebtoonRepository;
+import com.example.webtoon.service.ViewService;
 import com.example.webtoon.service.WebtoonService;
 import com.example.webtoon.type.ResponseCode;
 import com.example.webtoon.type.SortType;
 import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -29,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class WebtoonController {
 
     private final WebtoonService webtoonService;
+    private final ViewService viewService;
 
     // 신규 웹툰 등록
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -103,10 +108,13 @@ public class WebtoonController {
     }
 
     // 웹툰 에피소드 조회
-    @Cacheable(key = "#webtoonId + ', page: ' + #page", value = "episodeList")
     @GetMapping("/webtoon/episodes/{webtoonId}")
     public ApiResponse<Page<EpisodeDto>> getWebtoonEpisodes(@PathVariable Long webtoonId,
-                                                            @RequestParam(defaultValue = "0") Integer page) {
+                                                            @RequestParam(defaultValue = "0") Integer page,
+                                                            HttpServletRequest request) {
+        // 조회수 중복 체크
+        viewService.checkViewCount(webtoonId, request);
+
         Page<EpisodeDto> episodeDtoList = webtoonService.getWebtoonEpisodes(webtoonId, page);
         return new ApiResponse<>(
             HttpStatus.OK, ResponseCode.GET_EPISODES_SUCCESS, new RestPage<>(episodeDtoList));

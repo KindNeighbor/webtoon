@@ -1,5 +1,6 @@
 package com.example.webtoon.service;
 
+import com.example.webtoon.config.RestPage;
 import com.example.webtoon.dto.EpisodeDto;
 import com.example.webtoon.dto.WebtoonDocument;
 import com.example.webtoon.dto.WebtoonDto;
@@ -15,6 +16,7 @@ import com.example.webtoon.type.SortType;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -153,14 +155,13 @@ public class WebtoonService {
     }
 
     // 웹툰 에피소드 전체 목록 조회
+    @Cacheable(key = "#webtoonId + ', page: ' + #page", value = "episodeList")
     public Page<EpisodeDto> getWebtoonEpisodes(Long webtoonId, Integer page) {
+        System.out.println("실행 확인 =====================");
         Pageable pageable = PageRequest.of(page, SIZE);
         Page<Episode> episodeList = episodeRepository.findByWebtoon_WebtoonId(webtoonId, pageable);
-        Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(
-            () -> new CustomException(HttpStatus.NOT_FOUND, ErrorCode.WEBTOON_NOT_FOUND));
-        webtoon.setViewCount(webtoon.getViewCount() + 1);
-        webtoonRepository.save(webtoon);
-        return episodeList.map(EpisodeDto::from);
+
+        return new RestPage<>(episodeList.map(EpisodeDto::from));
     }
 
     // 검색한 웹툰 조회
