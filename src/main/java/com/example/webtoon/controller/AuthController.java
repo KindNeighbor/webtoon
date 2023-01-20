@@ -2,10 +2,10 @@ package com.example.webtoon.controller;
 
 import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.LoginRequest;
-import com.example.webtoon.type.ResponseCode;
 import com.example.webtoon.dto.SignUpRequest;
 import com.example.webtoon.dto.TokenResponse;
 import com.example.webtoon.service.AuthService;
+import com.example.webtoon.type.ResponseCode;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -12,6 +12,7 @@ import com.example.webtoon.repository.UserRepository;
 import com.example.webtoon.repository.WebtoonRepository;
 import com.example.webtoon.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ public class RateService {
     private final RateRepository rateRepository;
 
     // 평점 등록
+    @CacheEvict(value = "episodeAvgListbyUser", allEntries = true)
     public RateDto addRate(Long episodeId, Long userId, Integer userRate) {
 
         if (rateRepository.existsByEpisode_EpisodeIdAndUser_UserId(episodeId, userId)) {
@@ -49,6 +51,7 @@ public class RateService {
     }
 
     // 평점 수정
+    @CacheEvict(value = "episodeAvgListbyUser", allEntries = true)
     public RateDto updateRate(Long episodeId, Long userId, Integer userRate) {
         Rate rate = rateRepository.findByEpisode_EpisodeIdAndUser_UserId(episodeId, userId)
             .orElseThrow(() ->new CustomException(
@@ -61,6 +64,7 @@ public class RateService {
     }
 
     // 평점 삭제
+    @CacheEvict(value = "episodeAvgListbyUser", allEntries = true)
     public void deleteRate(Long episodeId, Long userId) {
         if (!rateRepository.existsByEpisode_EpisodeIdAndUser_UserId(episodeId, userId)) {
             throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.RATE_NOT_FOUND);

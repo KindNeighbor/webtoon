@@ -2,7 +2,6 @@ package com.example.webtoon.dto;
 
 import com.example.webtoon.type.ResponseCode;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +12,6 @@ import org.springframework.lang.Nullable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class ApiResponse<T> {
 
     private int status;
