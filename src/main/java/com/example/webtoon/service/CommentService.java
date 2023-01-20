@@ -10,6 +10,8 @@ import com.example.webtoon.repository.EpisodeRepository;
 import com.example.webtoon.repository.UserRepository;
 import com.example.webtoon.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     // 댓글 신규 작성
+    @Caching(evict = {@CacheEvict(value = "commentList", allEntries = true),
+                      @CacheEvict(value = "commentListbyUser", allEntries = true)})
     public CommentDto createComment(Long episodeId, Long userId, String userComment) {
 
         Episode episode = episodeRepository.findById(episodeId).orElseThrow(
@@ -44,6 +48,8 @@ public class CommentService {
     }
 
     // 댓글 수정
+    @Caching(evict = {@CacheEvict(value = "commentList", allEntries = true),
+                      @CacheEvict(value = "commentListbyUser", allEntries = true)})
     public CommentDto updateComment(Long commentId, Long userId, String userComment) {
         Comment comment = commentRepository.findByCommentIdAndUser_UserId(commentId, userId)
             .orElseThrow(() -> new CustomException(
@@ -56,6 +62,8 @@ public class CommentService {
     }
 
     // 댓글 삭제
+    @Caching(evict = {@CacheEvict(value = "commentList", allEntries = true),
+                      @CacheEvict(value = "commentListbyUser", allEntries = true)})
     public void deleteComment(Long commentId, Long userId) {
 
         // 댓글이 있는지 확인
@@ -72,6 +80,8 @@ public class CommentService {
     }
 
     // 댓글 삭제 (관리자)
+    @Caching(evict = {@CacheEvict(value = "commentList", allEntries = true),
+                      @CacheEvict(value = "commentListbyUser", allEntries = true)})
     public void deleteCommentByAdmin(Long commentId) {
         if (!commentRepository.existsById(commentId)) {
             throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.COMMENT_NOT_FOUND);

@@ -157,7 +157,6 @@ public class WebtoonService {
     // 웹툰 에피소드 전체 목록 조회
     @Cacheable(key = "#webtoonId + ', page: ' + #page", value = "episodeList")
     public Page<EpisodeDto> getWebtoonEpisodes(Long webtoonId, Integer page) {
-        System.out.println("실행 확인 =====================");
         Pageable pageable = PageRequest.of(page, SIZE);
         Page<Episode> episodeList = episodeRepository.findByWebtoon_WebtoonId(webtoonId, pageable);
 

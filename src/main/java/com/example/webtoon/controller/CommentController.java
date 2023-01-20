@@ -1,5 +1,6 @@
 package com.example.webtoon.controller;
 
+import com.example.webtoon.config.RestPage;
 import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.CommentDto;
 import com.example.webtoon.security.CurrentUser;
@@ -7,6 +8,7 @@ import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.service.CommentService;
 import com.example.webtoon.type.ResponseCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,12 +41,13 @@ public class CommentController {
     }
 
     // 댓글 전체 목록 조회
+    @Cacheable(key = "#episodeId + ', page: ' + #page", value = "commentList")
     @GetMapping("/comment/{episodeId}")
     public ApiResponse<Page<CommentDto>> getCommentList(@PathVariable Long episodeId,
                                                         @RequestParam(defaultValue = "0") Integer page) {
         Page<CommentDto> commentList = commentService.getCommentList(episodeId, page);
         return new ApiResponse<>(
-            HttpStatus.OK, ResponseCode.GET_COMMENT_LIST_SUCCESS, commentList);
+            HttpStatus.OK, ResponseCode.GET_COMMENT_LIST_SUCCESS, new RestPage<>(commentList));
     }
 
     // 댓글 수정

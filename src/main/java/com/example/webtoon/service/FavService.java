@@ -10,6 +10,7 @@ import com.example.webtoon.repository.UserRepository;
 import com.example.webtoon.repository.WebtoonRepository;
 import com.example.webtoon.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class FavService {
     private final FavRepository favRepository;
 
     // 선호 작품 등록
+    @CacheEvict(value = "FavList", allEntries = true)
     public WebtoonIdListDto addFavWebtoon(Long webtoonId, Long userId) {
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(() -> new CustomException(
             HttpStatus.NOT_FOUND, ErrorCode.WEBTOON_NOT_FOUND));
@@ -41,6 +43,7 @@ public class FavService {
     }
 
     // 선호 작품 삭제
+    @CacheEvict(value = "FavList", allEntries = true)
     public void deleteFavWebtoon(Long webtoonId, Long userId) {
         if (!favRepository.existsByWebtoon_WebtoonIdAndUser_UserId(webtoonId, userId)) {
             throw new CustomException(HttpStatus.NOT_FOUND, ErrorCode.FAV_WEBTOON_NOT_FOUND);
