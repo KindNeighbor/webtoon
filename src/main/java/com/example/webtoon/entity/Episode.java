@@ -41,16 +41,6 @@ public class Episode extends DateEntity {
     @JoinColumn(name = "webtoon_id")
     private Webtoon webtoon;
 
-    @OneToMany(fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL,
-        mappedBy = "episode")
-    private List<Rate> rates = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL,
-        mappedBy = "episode")
-    private List<Comment> comments = new ArrayList<>();
-
     public Episode(String title) {
         this.title = title;
     }

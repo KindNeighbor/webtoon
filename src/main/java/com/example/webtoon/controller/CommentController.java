@@ -3,7 +3,7 @@ package com.example.webtoon.controller;
 import com.example.webtoon.config.RestPage;
 import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.CommentDto;
-import com.example.webtoon.security.CurrentUser;
+import com.example.webtoon.config.CurrentUser;
 import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.service.CommentService;
 import com.example.webtoon.type.ResponseCode;

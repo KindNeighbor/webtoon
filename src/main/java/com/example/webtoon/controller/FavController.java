@@ -2,7 +2,7 @@ package com.example.webtoon.controller;
 
 import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.WebtoonIdListDto;
-import com.example.webtoon.security.CurrentUser;
+import com.example.webtoon.config.CurrentUser;
 import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.service.FavService;
 import com.example.webtoon.type.ResponseCode;

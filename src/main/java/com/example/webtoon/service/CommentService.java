@@ -89,7 +89,7 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    // 댓글 전체 목록 조회
+    // 에피소드 별 댓글 전체 목록 조회
     public Page<CommentDto> getCommentList(Long episodeId, Integer page) {
         Pageable pageable = PageRequest.of(page, SIZE);
         Page<Comment> commentList = commentRepository.findAllByEpisode_EpisodeId(episodeId, pageable);

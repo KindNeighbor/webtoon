@@ -3,7 +3,7 @@ package com.example.webtoon.controller;
 import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.RateAvgDto;
 import com.example.webtoon.dto.RateDto;
-import com.example.webtoon.security.CurrentUser;
+import com.example.webtoon.config.CurrentUser;
 import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.service.RateService;
 import com.example.webtoon.type.ResponseCode;

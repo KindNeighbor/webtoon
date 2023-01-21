@@ -7,7 +7,7 @@ import com.example.webtoon.dto.CommentDto;
 import com.example.webtoon.dto.EpisodeIdListDto;
 import com.example.webtoon.dto.UserInfo;
 import com.example.webtoon.dto.WebtoonIdListDto;
-import com.example.webtoon.security.CurrentUser;
+import com.example.webtoon.config.CurrentUser;
 import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.service.UserService;
 import com.example.webtoon.type.ResponseCode;
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     // 회원조회(관리자)
-    @GetMapping("/user/{nickname}")
+    @GetMapping("/admin/user/{nickname}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ApiResponse<UserInfo> getUserProfile(@PathVariable(value = "nickname") String nickname) {
         UserInfo userInfo = userService.getUserInfo(nickname);

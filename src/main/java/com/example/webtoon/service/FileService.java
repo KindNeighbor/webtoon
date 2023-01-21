@@ -53,6 +53,7 @@ public class FileService {
         return new EpisodeThumbnail(fileInfo.get(0), fileInfo.get(1));
     }
 
+    // 파일 저장 메소드
     private List<String> saveFile(MultipartFile file, String prefix) throws IOException {
 
         //파일 이름(fileName)
