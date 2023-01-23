@@ -1,6 +1,6 @@
 ## webtoon server project
 
-- 프로젝트 기간 : 22.12.19 ~ 23.1/23
+- 프로젝트 기간 : 22.12.19 ~ 23.1.23
 
 - 기획 : https://www.notion.so/b4c89a8e75c14cc1bbff15a897767afd
 
