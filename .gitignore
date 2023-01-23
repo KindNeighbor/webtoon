@@ -321,6 +321,7 @@ gradle-app.setting
 *.hprof
 
 src/main/resources/static/webtoons
-src/main/resources/application.yml
+
+src/test/java/com/example/webtoon/jasypt
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,intellij+all,intellij+iml,java,gradle

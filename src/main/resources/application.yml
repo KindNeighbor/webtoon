@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/example?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ENC(q+xvAYpgsFaFbz6TiTO47w==)
+    password: ENC(riXEz9rX9jd9qxQeXP49sg==)
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  redis:
+    host: localhost
+    port: 6378
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jasypt:
+    encryptor:
+      bean: jasyptStringEncryptor
+
+jwt:
+  header: Authorization
+  secret: ENC(jBPPWZDSJKS3PcekeL1S7BoSOSS/D4U0qJ7KpLKIyhzkkWkUH2xvB0PoKqPgcbwBpAg1lTE1jrIsoaTH2KmddFBhMAEWFbk/aql2L5FUL8l9mtkx+9Rf1LK5T3AycgYR1odjeHj4qXeiS1rs7M2yIIv1EKo96fZDxXuB+esBU3rddDLgk7Y6UJx8iuHAes6v)
+  token-validity-in-seconds: 86400000
+
+file:
+  upload:
+    location: ./src/main/resources/static/webtoons
