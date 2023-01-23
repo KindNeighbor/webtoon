@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/example?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://webtoon-test-db.ck12t2tf6fzx.ap-northeast-2.rds.amazonaws.com:3306/webtoon
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ENC(q+xvAYpgsFaFbz6TiTO47w==)
-    password: ENC(riXEz9rX9jd9qxQeXP49sg==)
+    username: ENC(0zLfXwekDAjACwoNaQLB/w==)
+    password: ENC(leuqiire/F5uwQ/AZTV3efYu0c3Y5XOP)
 
   jpa:
     generate-ddl: true
