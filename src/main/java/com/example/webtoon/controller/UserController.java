@@ -11,6 +11,8 @@ import com.example.webtoon.config.CurrentUser;
 import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.service.UserService;
 import com.example.webtoon.type.ResponseCode;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -25,12 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Api(tags = {"회원 컨트롤러"})
 public class UserController {
 
     private final UserService userService;
 
 
     // 본인 정보 조회
+    @ApiOperation("본인 정보 조회")
     @GetMapping("/user/my")
     public ApiResponse<UserInfo> getCurrentUser(@CurrentUser UserPrincipal currentUser) {
         UserInfo userInfo = userService.getCurrentUser(currentUser);
@@ -39,6 +43,7 @@ public class UserController {
     }
 
     // 회원조회(관리자)
+    @ApiOperation("회원조회(관리자)")
     @GetMapping("/admin/user/{nickname}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ApiResponse<UserInfo> getUserProfile(@PathVariable(value = "nickname") String nickname) {
@@ -48,6 +53,7 @@ public class UserController {
     }
 
     // 유저가 평점 부여한 에피소드 목록 조회
+    @ApiOperation("유저가 평점 부여한 에피소드 목록 조회")
     @Cacheable(key = "#currentUser.id + ', givAvg' + ', page: ' + #page", value = "episodeAvgListbyUser")
     @GetMapping("/user/webtoon/rated")
     public ApiResponse<Page<EpisodeIdListDto>> getEpisodeRatedByUser(@CurrentUser UserPrincipal currentUser,
@@ -59,6 +65,7 @@ public class UserController {
     }
 
     // 유저가 작성한 댓글 목록 조회
+    @ApiOperation("유저가 작성한 댓글 목록 조회")
     @Cacheable(key = "#currentUser.id + ', comment' + ', page: ' + #page", value = "commentListbyUser")
     @GetMapping("/user/comments")
     public ApiResponse<Page<CommentDto>> getCommentsByUser(@CurrentUser UserPrincipal currentUser,
@@ -69,6 +76,7 @@ public class UserController {
     }
 
     // 선호 작품 목록 조회
+    @ApiOperation("선호 작품 목록 조회")
     @Cacheable(key = "#currentUser.id + ', Fav' + ', page: ' + #page", value = "FavList")
     @GetMapping("/user/fav-webtoon")
     public ApiResponse<Page<WebtoonIdListDto>> getFavWebtoonList(@CurrentUser UserPrincipal currentUser,

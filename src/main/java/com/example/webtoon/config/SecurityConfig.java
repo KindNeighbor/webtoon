@@ -73,6 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .authorizeRequests() //다음 리퀘스트에 대한 사용권한 체크
                     .antMatchers("/api/signin", "/api/signup")
                         .permitAll()
+                    .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**")
+                        .permitAll()
                     .anyRequest()
                         .authenticated(); //그 외 나머지 요청은 모두 인증된 회원만 접근가능
 

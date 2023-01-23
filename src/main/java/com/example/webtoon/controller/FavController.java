@@ -6,6 +6,8 @@ import com.example.webtoon.config.CurrentUser;
 import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.service.FavService;
 import com.example.webtoon.type.ResponseCode;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,11 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Api(tags = {"선호작품 컨트롤러"})
 public class FavController {
 
     private final FavService favService;
 
     // 선호 작품 등록
+    @ApiOperation("선호 작품 등록")
     @PostMapping("/fav-webtoon/{webtoonId}")
     public ApiResponse<WebtoonIdListDto> addFavWebtoon(@PathVariable Long webtoonId,
                                                        @CurrentUser UserPrincipal currentUser) {
@@ -30,6 +34,7 @@ public class FavController {
     }
 
     // 선호 작품 삭제
+    @ApiOperation("선호 작품 삭제")
     @DeleteMapping("/fav-webtoon/{webtoonId}")
     public ApiResponse<Void> deleteFavWebtoon(@PathVariable Long webtoonId,
                                               @CurrentUser UserPrincipal currentUser) {

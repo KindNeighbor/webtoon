@@ -4,12 +4,12 @@ import com.example.webtoon.config.RestPage;
 import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.EpisodeDto;
 import com.example.webtoon.dto.WebtoonDto;
-import com.example.webtoon.repository.ViewRepository;
-import com.example.webtoon.repository.WebtoonRepository;
 import com.example.webtoon.service.ViewService;
 import com.example.webtoon.service.WebtoonService;
 import com.example.webtoon.type.ResponseCode;
 import com.example.webtoon.type.SortType;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +30,14 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api")
 @RestController
 @RequiredArgsConstructor
+@Api(tags = {"웹툰 컨트롤러"})
 public class WebtoonController {
 
     private final WebtoonService webtoonService;
     private final ViewService viewService;
 
     // 신규 웹툰 등록
+    @ApiOperation("신규 웹툰 등록")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/webtoon")
     public ApiResponse<WebtoonDto> addWebtoon(@RequestParam String title,
@@ -50,6 +52,7 @@ public class WebtoonController {
     }
 
     // 웹툰 수정
+    @ApiOperation("웹툰 수정")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/webtoon/{webtoonId}")
     public ApiResponse<WebtoonDto> updateWebtoon(@PathVariable Long webtoonId,
@@ -64,6 +67,7 @@ public class WebtoonController {
     }
 
     // 기존 웹툰 삭제
+    @ApiOperation("기존 웹툰 삭제")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/webtoon/{webtoonId}")
     public ApiResponse<Void> deleteWebtoon(@PathVariable Long webtoonId) {
@@ -72,6 +76,7 @@ public class WebtoonController {
     }
 
     // 에피소드 등록
+    @ApiOperation("에피소드 등록")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/episode/{webtoonId}")
     public ApiResponse<EpisodeDto> addWebtoon(@PathVariable Long webtoonId,
@@ -86,6 +91,7 @@ public class WebtoonController {
     }
 
     // 에피소드 수정
+    @ApiOperation("에피소드 수정")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/episode/{episodeId}")
     public ApiResponse<EpisodeDto> updateWebtoon(@PathVariable Long episodeId,
@@ -100,6 +106,7 @@ public class WebtoonController {
     }
 
     // 기존 에피소드 삭제
+    @ApiOperation("기존 에피소드 삭제")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/episode/{episodeId}")
     public ApiResponse<Void> deleteEpisode(@PathVariable Long episodeId) {
@@ -108,6 +115,7 @@ public class WebtoonController {
     }
 
     // 웹툰 에피소드 조회
+    @ApiOperation("웹툰 에피소드 조회")
     @GetMapping("/webtoon/episodes/{webtoonId}")
     public ApiResponse<Page<EpisodeDto>> getWebtoonEpisodes(@PathVariable Long webtoonId,
                                                             @RequestParam(defaultValue = "0") Integer page,
@@ -121,6 +129,7 @@ public class WebtoonController {
     }
 
     // 웹툰 요일별 조회 (업데이트순, 평점순, 조회수순)
+    @ApiOperation("웹툰 요일별 조회 (업데이트순, 평점순, 조회수순)")
     @Cacheable(key = "#day + ', sort: ' + #sortType.toString() + ', page: ' + #page", value = "webtoonList")
     @GetMapping("/webtoon")
     public ApiResponse<Page<WebtoonDto>> getWebtoonByDay(
@@ -135,6 +144,7 @@ public class WebtoonController {
     }
 
     // 검색한 웹툰 조회
+    @ApiOperation("검색한 웹툰 조회")
     @GetMapping("/webtoon-search")
     public ApiResponse<Page<WebtoonDto>> searchWebtoons(
         @RequestParam String keyword,
