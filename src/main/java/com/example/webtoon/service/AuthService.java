@@ -58,13 +58,13 @@ public class AuthService {
         // 이메일 중복 여부
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new CustomException(
-                HttpStatus.BAD_REQUEST, ErrorCode.ALREADY_EXISTED_EMAIL);
+                HttpStatus.BAD_REQUEST, ErrorCode.ALREADY_EXIST_EMAIL);
         }
 
         // 닉네임 중복 여부
         if (userRepository.existsByNickname(signUpRequest.getNickname())) {
             throw new CustomException(
-                HttpStatus.BAD_REQUEST, ErrorCode.ALREADY_EXISTED_NICKNAME);
+                HttpStatus.BAD_REQUEST, ErrorCode.ALREADY_EXIST_NICKNAME);
         }
 
         // 입력된 회원가입 정보 DB에 저장

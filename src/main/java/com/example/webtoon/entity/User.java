@@ -50,21 +50,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleName role;
 
-    @OneToMany(fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL,
-        mappedBy = "user")
-    private List<Favorite> favorites = new ArrayList<>();;
-
-    @OneToMany(fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL,
-        mappedBy = "user")
-    private List<Comment> comments = new ArrayList<>();;
-
-    @OneToMany(fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL,
-        mappedBy = "user")
-    private List<Rate> rates = new ArrayList<>();
-
     public User(String email, String username, String password, String nickname) {
         this.email = email;
         this.username = username;

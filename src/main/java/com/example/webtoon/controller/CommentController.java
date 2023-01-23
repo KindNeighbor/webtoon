@@ -3,10 +3,12 @@ package com.example.webtoon.controller;
 import com.example.webtoon.config.RestPage;
 import com.example.webtoon.dto.ApiResponse;
 import com.example.webtoon.dto.CommentDto;
-import com.example.webtoon.security.CurrentUser;
+import com.example.webtoon.config.CurrentUser;
 import com.example.webtoon.security.UserPrincipal;
 import com.example.webtoon.service.CommentService;
 import com.example.webtoon.type.ResponseCode;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -25,11 +27,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Api(tags = {"댓글 컨트롤러"})
 public class CommentController {
 
     private final CommentService commentService;
 
     // 댓글 신규 작성
+    @ApiOperation("댓글 신규 작성")
     @PostMapping("/comment/{episodeId}")
     public ApiResponse<CommentDto> createComment(@PathVariable Long episodeId,
                                                  @CurrentUser UserPrincipal currentUser,
@@ -41,6 +45,7 @@ public class CommentController {
     }
 
     // 댓글 전체 목록 조회
+    @ApiOperation("댓글 전체 목록 조회")
     @Cacheable(key = "#episodeId + ', page: ' + #page", value = "commentList")
     @GetMapping("/comment/{episodeId}")
     public ApiResponse<Page<CommentDto>> getCommentList(@PathVariable Long episodeId,
@@ -51,6 +56,7 @@ public class CommentController {
     }
 
     // 댓글 수정
+    @ApiOperation("댓글 수정")
     @PutMapping("/comment/{commentId}")
     public ApiResponse<CommentDto> updateComment(@PathVariable Long commentId,
                                                  @CurrentUser UserPrincipal currentUser,
@@ -62,6 +68,7 @@ public class CommentController {
     }
 
     // 댓글 삭제
+    @ApiOperation("댓글 삭제")
     @DeleteMapping("/comment/{commentId}")
     public ApiResponse<Void> deleteComment(@PathVariable Long commentId,
                                            @CurrentUser UserPrincipal currentUser) {
@@ -71,6 +78,7 @@ public class CommentController {
     }
 
     // 댓글 삭제 (관리자만)
+    @ApiOperation("댓글 삭제 (관리자만)")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/admin/comment/{commentId}")
     public ApiResponse<Void> deleteCommentByAdmin(@PathVariable Long commentId) {

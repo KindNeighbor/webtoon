@@ -1,7 +1,7 @@
 package com.example.webtoon.service;
 
-import static com.example.webtoon.type.ErrorCode.ALREADY_EXISTED_EMAIL;
-import static com.example.webtoon.type.ErrorCode.ALREADY_EXISTED_NICKNAME;
+import static com.example.webtoon.type.ErrorCode.ALREADY_EXIST_EMAIL;
+import static com.example.webtoon.type.ErrorCode.ALREADY_EXIST_NICKNAME;
 import static com.example.webtoon.type.ErrorCode.LOGIN_FAIL_EMAIL_NOT_EXIST;
 import static com.example.webtoon.type.ErrorCode.LOGIN_FAIL_PASSWORD_WRONG;
 import static com.example.webtoon.type.RoleName.ROLE_USER;
@@ -161,7 +161,7 @@ class AuthServiceTest {
 
         // then
         assertEquals(BAD_REQUEST, exception.getStatusMessage());
-        assertEquals(ALREADY_EXISTED_EMAIL, exception.getErrorCode());
+        assertEquals(ALREADY_EXIST_EMAIL, exception.getErrorCode());
     }
 
     @Test
@@ -183,6 +183,6 @@ class AuthServiceTest {
 
         // then
         assertEquals(BAD_REQUEST, exception.getStatusMessage());
-        assertEquals(ALREADY_EXISTED_NICKNAME, exception.getErrorCode());
+        assertEquals(ALREADY_EXIST_NICKNAME, exception.getErrorCode());
     }
 }

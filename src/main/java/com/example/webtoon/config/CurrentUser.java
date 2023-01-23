@@ -1,4 +1,4 @@
-package com.example.webtoon.security;
+package com.example.webtoon.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

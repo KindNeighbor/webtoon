@@ -44,7 +44,7 @@ public class WebtoonService {
 
         if (webtoonRepository.existsByTitle(title)) {
             throw new CustomException(
-                HttpStatus.CONFLICT, ErrorCode.ALREADY_EXISTED_WEBTOON_TITLE);
+                HttpStatus.CONFLICT, ErrorCode.ALREADY_EXIST_WEBTOON_TITLE);
         }
 
         Webtoon webtoon = new Webtoon(title, artist, day, genre);
@@ -99,7 +99,7 @@ public class WebtoonService {
 
         if (episodeRepository.existsByWebtoon_WebtoonIdAndTitle(webtoonId, title)) {
             throw new CustomException(
-                HttpStatus.CONFLICT, ErrorCode.ALREADY_EXISTED_EPISODE_TITLE);
+                HttpStatus.CONFLICT, ErrorCode.ALREADY_EXIST_EPISODE_TITLE);
         }
 
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(
