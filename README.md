@@ -1,7 +1,7 @@
 # webtoon server project
-
+- 웹툰 서버를 만들어 보면서 erd 기획부터 spring, jpa, mysql 등을 경험했습니다.
 - 프로젝트 기간 : 22.12.19 ~ 23.1.23
-
+- 개발인원 : 1명
 - 기획 : https://www.notion.so/b4c89a8e75c14cc1bbff15a897767afd
 
 ### stack
