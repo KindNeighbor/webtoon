@@ -4,7 +4,7 @@
 - 개발인원 : 1명
 - 기획 : https://www.notion.so/b4c89a8e75c14cc1bbff15a897767afd
 
-### STACK
+## STACK
 
 - java
 - spring boot, sprind data JPA
@@ -12,10 +12,10 @@
 - Mysql, redis, ElasticSearch
 - swagger ui
 
-### ERD
+## ERD
 ![project_erd_2차](https://user-images.githubusercontent.com/97837003/214112223-6ea44756-de68-4fd3-9c35-e88aa0b65b2f.png)
 
-### 프로젝트 기능
+## 프로젝트 기능
 
 **회원**
 
