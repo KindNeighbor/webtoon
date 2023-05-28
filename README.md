@@ -7,7 +7,7 @@
 ## STACK
 
 - java
-- spring boot, sprind data JPA
+- spring boot, spring data JPA
 - spring security
 - Mysql, redis, ElasticSearch
 - swagger ui
